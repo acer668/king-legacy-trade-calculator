@@ -16,9 +16,20 @@
       <button id="tradeNavBtn" type="button">Trade Calculator</button>
       <button id="robuxNavBtn" type="button">Robux Per Fin</button>
       <button id="dropNavBtn" type="button">Drop Boost Helper</button>
+      <button id="feedbackNavBtn" type="button">Feedback</button>
       <button id="themeBtn" type="button">Toggle Theme</button>
     </div>
   </header>
+
+  <aside id="feedbackSidePanel" class="feedback-side-panel">
+    <button id="sideFeedbackBtn" type="button" class="side-feedback-btn">Feedback</button>
+    <p class="feedback-side-bubble">feedback is wanted and greatly appreciated. send feedback if you encounter any bugs, you believe a value should be changed, you believe a large portion of the site is outdated, or you have any suggestions for new features.</p>
+  </aside>
+
+  <aside class="official-side-links" aria-label="Official King Legacy links">
+    <a class="official-link-btn" href="https://king-legacy-official.fandom.com/wiki/King_Legacy_Wiki">Official King Legacy Wiki</a>
+    <a class="official-link-btn" href="https://discord.gg/kinglegacy">Official King Legacy Discord</a>
+  </aside>
 
   <main id="calculatorView">
     <section class="summary-card">
@@ -138,6 +149,50 @@
           <small id="dropMultiplier">Multiplier: 1x</small>
         </div>
       </section>
+    </section>
+  </main>
+
+
+  <main id="feedbackView" class="hidden-view">
+    <section class="feedback-form-card">
+      <div class="feedback-form-head">
+        <h2>Feedback</h2>
+        <p>Send a bug report, revaluation, suggestion, or update request.</p>
+      </div>
+
+      <div class="feedback-form-grid">
+        <label>
+          <span>Name/Username</span>
+          <input id="feedbackName" type="text" maxlength="80" placeholder="Optional name or Discord username" />
+        </label>
+
+        <label>
+          <span>Time and Date</span>
+          <input id="feedbackTime" type="text" placeholder="Example: June 30, 8:45 PM" />
+        </label>
+
+        <label class="feedback-wide">
+          <span>Feedback Type</span>
+          <select id="feedbackType">
+            <option value="bug">Bug Report</option>
+            <option value="revaluation">Revaluation</option>
+            <option value="suggestion">Suggestions</option>
+            <option value="update">Update Request</option>
+          </select>
+          <small id="feedbackTypeDescription" class="feedback-type-description"></small>
+        </label>
+
+        <label class="feedback-wide">
+          <span>Feedback</span>
+          <textarea id="feedbackMessage" maxlength="4000" placeholder="Type your feedback here. 500 words max."></textarea>
+          <small id="feedbackWordCount" class="feedback-word-count">0 / 500 words</small>
+        </label>
+      </div>
+
+      <div class="feedback-submit-row">
+        <p id="feedbackStatus" class="feedback-status"></p>
+        <button id="feedbackSubmitBtn" type="button">Submit!</button>
+      </div>
     </section>
   </main>
 

@@ -261,6 +261,42 @@ let selectedDropItem = DROP_ITEMS[0];
 
 let customRegionalPercent = null;
 
+
+// Paste your Discord webhook URLs here. Each feedback type can go to a different channel.
+const FEEDBACK_WEBHOOKS = {
+  bug: "https://discord.com/api/webhooks/1521359374465892503/k_pppmZm_OfotjCweZ9XNf020UaP37cMydbqAD-w4ngECvvgUO2LsTDAP5eUP7My4abw",
+  revaluation: "https://discord.com/api/webhooks/1521359485631725678/7VCVy5eQNomXCXXK33y4bv7BRrbw-h9uCf6iZNOZGhbwVY4wMzONsjJjMYkmddhmOMf7",
+  suggestion: "https://discord.com/api/webhooks/1521359554745602194/MM8mO6jQAFPE4PgYI3U1NQA3oGX2d_okk5wvz3v2TaxpbJijJ2MXnL2uwHYuA7GFUVZv",
+  update: "https://discord.com/api/webhooks/1521359623913996360/wkoRGSEowhl2Lsti4lxScZZkErDC_XIjf_7eeDSYfb_DxHAGsFmG77SBmYZrYwwGFc1s"
+};
+
+const FEEDBACK_TYPE_INFO = {
+  bug: {
+    label: "Bug Report",
+    emoji: "🐞",
+    color: 0xff5c7a,
+    description: "Report anything on the site that is broken, glitching, displaying incorrectly, or not working the way it should."
+  },
+  revaluation: {
+    label: "Revaluation",
+    emoji: "📈",
+    color: 0xffe066,
+    description: "Submit value changes you believe should be made, including items you think are overvalued, undervalued, or outdated."
+  },
+  suggestion: {
+    label: "Suggestion",
+    emoji: "💡",
+    color: 0x36d4ff,
+    description: "Submit any suggestions you might have for updates you'd like to see added to this tool in the future."
+  },
+  update: {
+    label: "Update Request",
+    emoji: "🔄",
+    color: 0x51e28a,
+    description: "Request a larger site update, new items, new calculator features, or changes after a King Legacy update."
+  }
+};
+
 const state = {
   your: {},
   their: {}
@@ -283,9 +319,13 @@ const els = {
   tradeNavBtn: document.getElementById("tradeNavBtn"),
   robuxNavBtn: document.getElementById("robuxNavBtn"),
   dropNavBtn: document.getElementById("dropNavBtn"),
+  feedbackNavBtn: document.getElementById("feedbackNavBtn"),
+  sideFeedbackBtn: document.getElementById("sideFeedbackBtn"),
+  feedbackSidePanel: document.getElementById("feedbackSidePanel"),
   calculatorView: document.getElementById("calculatorView"),
   robuxView: document.getElementById("robuxView"),
   dropView: document.getElementById("dropView"),
+  feedbackView: document.getElementById("feedbackView"),
   robuxItemsContainer: document.getElementById("robuxItemsContainer"),
   siteTitle: document.getElementById("siteTitle"),
   siteSubtitle: document.getElementById("siteSubtitle"),
@@ -309,7 +349,15 @@ const els = {
   dropPassiveLevel: document.getElementById("dropPassiveLevel"),
   dropResult: document.getElementById("dropResult"),
   dropExpected: document.getElementById("dropExpected"),
-  dropMultiplier: document.getElementById("dropMultiplier")
+  dropMultiplier: document.getElementById("dropMultiplier"),
+  feedbackName: document.getElementById("feedbackName"),
+  feedbackTime: document.getElementById("feedbackTime"),
+  feedbackType: document.getElementById("feedbackType"),
+  feedbackTypeDescription: document.getElementById("feedbackTypeDescription"),
+  feedbackMessage: document.getElementById("feedbackMessage"),
+  feedbackWordCount: document.getElementById("feedbackWordCount"),
+  feedbackStatus: document.getElementById("feedbackStatus"),
+  feedbackSubmitBtn: document.getElementById("feedbackSubmitBtn")
 };
 
 function formatValue(value) {
@@ -586,16 +634,19 @@ function renderRobuxItems() {
 }
 
 function setActiveNav(active) {
-  [els.tradeNavBtn, els.robuxNavBtn, els.dropNavBtn].forEach(btn => btn.classList.remove("active-nav"));
+  [els.tradeNavBtn, els.robuxNavBtn, els.dropNavBtn, els.feedbackNavBtn].forEach(btn => btn.classList.remove("active-nav"));
   if (active === "trade") els.tradeNavBtn.classList.add("active-nav");
   if (active === "robux") els.robuxNavBtn.classList.add("active-nav");
   if (active === "drop") els.dropNavBtn.classList.add("active-nav");
+  if (active === "feedback") els.feedbackNavBtn.classList.add("active-nav");
 }
 
 function showCalculatorView() {
   els.calculatorView.classList.remove("hidden-view");
   els.robuxView.classList.add("hidden-view");
   els.dropView.classList.add("hidden-view");
+  els.feedbackView.classList.add("hidden-view");
+  els.feedbackSidePanel.classList.remove("hidden-view");
   els.siteTitle.textContent = "King Legacy Trade Calculator";
   els.siteSubtitle.textContent = "Compare both sides of a trade using custom Fin values.";
   document.title = "King Legacy Trade Calculator";
@@ -606,6 +657,8 @@ function showRobuxView() {
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.remove("hidden-view");
   els.dropView.classList.add("hidden-view");
+  els.feedbackView.classList.add("hidden-view");
+  els.feedbackSidePanel.classList.remove("hidden-view");
   els.siteTitle.textContent = "King Legacy Robux Per Fin Calculator";
   els.siteSubtitle.textContent = "Calculates the amount of Robux required to obtain 1 Fin through trading.";
   document.title = "King Legacy Robux Per Fin Calculator";
@@ -618,6 +671,8 @@ function showDropView() {
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.add("hidden-view");
   els.dropView.classList.remove("hidden-view");
+  els.feedbackView.classList.add("hidden-view");
+  els.feedbackSidePanel.classList.remove("hidden-view");
   els.siteTitle.textContent = "King Legacy Drop Boost Helper";
   els.siteSubtitle.textContent = "Calculate final drop chances using gamepass, passive, and extra drop boosts.";
   document.title = "King Legacy Drop Boost Helper";
@@ -626,9 +681,110 @@ function showDropView() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function showFeedbackView() {
+  els.calculatorView.classList.add("hidden-view");
+  els.robuxView.classList.add("hidden-view");
+  els.dropView.classList.add("hidden-view");
+  els.feedbackView.classList.remove("hidden-view");
+  els.feedbackSidePanel.classList.add("hidden-view");
+  els.siteTitle.textContent = "King Legacy Feedback";
+  els.siteSubtitle.textContent = "Submit bug reports, revaluations, suggestions, or update requests.";
+  document.title = "King Legacy Feedback";
+  setActiveNav("feedback");
+  updateFeedbackTypeDescription();
+  if (!els.feedbackTime.value) els.feedbackTime.value = new Date().toLocaleString();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateFeedbackTypeDescription() {
+  const type = els.feedbackType.value;
+  els.feedbackTypeDescription.textContent = FEEDBACK_TYPE_INFO[type]?.description || "";
+}
+
+function countFeedbackWords() {
+  return els.feedbackMessage.value.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function updateFeedbackWordCount() {
+  let words = els.feedbackMessage.value.trim().split(/\s+/).filter(Boolean);
+  if (words.length > 500) {
+    els.feedbackMessage.value = words.slice(0, 500).join(" ");
+    words = els.feedbackMessage.value.trim().split(/\s+/).filter(Boolean);
+  }
+  els.feedbackWordCount.textContent = `${words.length} / 500 words`;
+}
+
+function setFeedbackStatus(message, type = "") {
+  els.feedbackStatus.textContent = message;
+  els.feedbackStatus.className = `feedback-status ${type}`.trim();
+}
+
+async function submitFeedback() {
+  const type = els.feedbackType.value;
+  const info = FEEDBACK_TYPE_INFO[type] || FEEDBACK_TYPE_INFO.bug;
+  const webhookUrl = FEEDBACK_WEBHOOKS[type];
+  const name = els.feedbackName.value.trim() || "Anonymous";
+  const time = els.feedbackTime.value.trim() || new Date().toLocaleString();
+  const message = els.feedbackMessage.value.trim();
+
+  if (!message) {
+    setFeedbackStatus("Please type your feedback before submitting.", "error");
+    return;
+  }
+
+  if (countFeedbackWords() > 500) {
+    setFeedbackStatus("Please keep your feedback at 500 words or less.", "error");
+    return;
+  }
+
+  if (!webhookUrl || webhookUrl.includes("PASTE_")) {
+    setFeedbackStatus("Webhook URL missing. Paste your Discord webhook URLs into script.js first.", "error");
+    return;
+  }
+
+  els.feedbackSubmitBtn.disabled = true;
+  els.feedbackSubmitBtn.textContent = "Sending...";
+  setFeedbackStatus("Sending feedback...", "");
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: "King Legacy Toolkit Feedback",
+        embeds: [{
+          title: `${info.emoji} ${info.label}`,
+          color: info.color,
+          fields: [
+            { name: "Name/Username", value: name, inline: true },
+            { name: "Time and Date", value: time, inline: true },
+            { name: "Page", value: document.title, inline: true },
+            { name: "Feedback", value: message.slice(0, 3900) }
+          ],
+          footer: { text: "Sent from King Legacy Toolkit" },
+          timestamp: new Date().toISOString()
+        }]
+      })
+    });
+
+    if (!response.ok) throw new Error("Discord rejected the message.");
+
+    els.feedbackMessage.value = "";
+    updateFeedbackWordCount();
+    setFeedbackStatus("Feedback sent. Thank you!", "success");
+  } catch (error) {
+    setFeedbackStatus("Feedback failed to send. Check your webhook URL or Discord channel permissions.", "error");
+  } finally {
+    els.feedbackSubmitBtn.disabled = false;
+    els.feedbackSubmitBtn.textContent = "Submit!";
+  }
+}
+
 els.tradeNavBtn.addEventListener("click", showCalculatorView);
 els.robuxNavBtn.addEventListener("click", showRobuxView);
 els.dropNavBtn.addEventListener("click", showDropView);
+els.feedbackNavBtn.addEventListener("click", showFeedbackView);
+els.sideFeedbackBtn.addEventListener("click", showFeedbackView);
 
 els.regionalGoBtn.addEventListener("click", () => {
   const value = Number(els.conquerorPriceInput.value);
@@ -764,6 +920,12 @@ els.dropResetBtn.addEventListener("click", () => {
   input.addEventListener("input", updateDropCalculator);
   input.addEventListener("change", updateDropCalculator);
 });
+
+els.feedbackType.addEventListener("change", updateFeedbackTypeDescription);
+els.feedbackMessage.addEventListener("input", updateFeedbackWordCount);
+els.feedbackSubmitBtn.addEventListener("click", submitFeedback);
+updateFeedbackTypeDescription();
+updateFeedbackWordCount();
 
 setupFilters();
 renderItems();
