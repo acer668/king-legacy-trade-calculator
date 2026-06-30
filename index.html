@@ -12,10 +12,13 @@
       <h1>King Legacy Trade Calculator</h1>
       <p>Compare both sides of a trade using custom Fin values.</p>
     </div>
-    <button id="themeBtn" type="button">Toggle Theme</button>
+    <div class="top-actions">
+      <button id="pageToggleBtn" type="button">Robux Per Fin Values</button>
+      <button id="themeBtn" type="button">Toggle Theme</button>
+    </div>
   </header>
 
-  <main>
+  <main id="calculatorView">
     <section class="summary-card">
       <div class="summary-box">
         <span>Your Offer</span>
@@ -66,6 +69,22 @@
     </section>
 
     <section id="itemsContainer" class="items-container"></section>
+  </main>
+
+  <main id="robuxView" class="hidden-view">
+    <section class="robux-intro">
+      <h2>Robux Per Fin Values</h2>
+      <p>If you'd like specific values, please input your price for conquerors Haki. please input the price before alterations(roblox plus discount).</p>
+      <div class="regional-input-row">
+        <input id="conquerorPriceInput" type="number" min="750" max="2500" placeholder="Conqueror's Haki price, 750-2500" />
+        <button id="regionalGoBtn" type="button">Go!</button>
+        <button id="regionalResetBtn" type="button">Reset</button>
+      </div>
+      <p id="regionalPercentText" class="regional-percent-text">Showing max, 50%, and 30% regional pricing columns.</p>
+    </section>
+
+    <section id="robuxItemsContainer" class="robux-items-container"></section>
+    <p class="robux-disclaimer">*all robux values are specific to your region. use the values provided to predict your robux per fin value if your un-altered pricing is not listed.</p>
   </main>
 
   <template id="itemTemplate">

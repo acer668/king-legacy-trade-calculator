@@ -175,6 +175,64 @@ const ITEMS = [
   { name: "Perm Bomb", category: "Perm Fruits", value: 12.5 }
 ];
 
+
+const ROBUX_ITEMS = [
+  // Gamepasses
+  { name: "Volt Bundle", category: "Bundles", maxRobux: 3399 },
+  { name: "Hellroot Bundle", category: "Bundles", maxRobux: 4999 },
+  { name: "Conqueror", category: "Gamepasses", maxRobux: 2500 },
+  { name: "Primal Pack", category: "Bundles", maxRobux: 2999 },
+  { name: "BlazeIce Pack", category: "Bundles", maxRobux: 999 },
+  { name: "Night Blade", category: "Gamepasses", maxRobux: 1000 },
+  { name: "+1 Slot (Passive)", category: "Gamepasses", maxRobux: 1000 },
+  { name: "2x Money", category: "Gamepasses", maxRobux: 1000 },
+  { name: "2x Drop Item", category: "Gamepasses", maxRobux: 750 },
+  { name: "Coffin Boat", category: "Gamepasses", maxRobux: 500 },
+  { name: "+1 Fruit Storage", category: "Gamepasses", maxRobux: 375 },
+  { name: "Legacy Pose", category: "Gamepasses", maxRobux: 350 },
+  { name: "Animation (Any)", category: "Gamepasses", maxRobux: 100 },
+  { name: "2x exp (12 hours)", category: "Gamepasses", maxRobux: 699 },
+  { name: "Race Rerolls", category: "Gamepasses", maxRobux: 75 },
+  { name: "Refund Stats", category: "Gamepasses", maxRobux: 25 },
+
+  // Perm Fruits
+  { name: "Perm Dragon", category: "Perm Fruits", maxRobux: 3250 },
+  { name: "Perm Dough", category: "Perm Fruits", maxRobux: 2850 },
+  { name: "Perm Phoenix", category: "Perm Fruits", maxRobux: 3125 },
+  { name: "Perm Pter", category: "Perm Fruits", maxRobux: 3275 },
+  { name: "Perm Tree", category: "Perm Fruits", maxRobux: 2500 },
+  { name: "Perm Gate", category: "Perm Fruits", maxRobux: 2350 },
+  { name: "Perm Toy", category: "Perm Fruits", maxRobux: 3000 },
+  { name: "Perm Melody", category: "Perm Fruits", maxRobux: 2750 },
+  { name: "Perm Demon", category: "Perm Fruits", maxRobux: 2950 },
+  { name: "Perm Quake", category: "Perm Fruits", maxRobux: 1800 },
+  { name: "Perm Rumble", category: "Perm Fruits", maxRobux: 1500 },
+  { name: "Perm Gas", category: "Perm Fruits", maxRobux: 1250 },
+  { name: "Perm Control", category: "Perm Fruits", maxRobux: 1075 },
+  { name: "Perm Light", category: "Perm Fruits", maxRobux: 1200 },
+  { name: "Perm Snow", category: "Perm Fruits", maxRobux: 1350 },
+  { name: "Perm Spino", category: "Perm Fruits", maxRobux: 1100 },
+  { name: "Perm Gravity", category: "Perm Fruits", maxRobux: 1050 },
+  { name: "Perm Buddha", category: "Perm Fruits", maxRobux: 975 },
+  { name: "Perm Flame", category: "Perm Fruits", maxRobux: 1150 },
+  { name: "Perm Magma", category: "Perm Fruits", maxRobux: 1150 },
+  { name: "Perm Brachio", category: "Perm Fruits", maxRobux: 1075 },
+  { name: "Perm Venom", category: "Perm Fruits", maxRobux: 975 },
+  { name: "Perm Ice", category: "Perm Fruits", maxRobux: 1100 },
+  { name: "Perm Dark", category: "Perm Fruits", maxRobux: 975 },
+  { name: "Perm Love", category: "Perm Fruits", maxRobux: 600 },
+  { name: "Perm Allo", category: "Perm Fruits", maxRobux: 1075 },
+  { name: "Perm Rubber", category: "Perm Fruits", maxRobux: 725 },
+  { name: "Perm Paw", category: "Perm Fruits", maxRobux: 300 },
+  { name: "Perm Telekinesis", category: "Perm Fruits", maxRobux: 450 },
+  { name: "Perm Bomb", category: "Perm Fruits", maxRobux: 125 }
+].map(item => {
+  const finItem = ITEMS.find(valueItem => valueItem.name.toLowerCase() === item.name.toLowerCase());
+  return { ...item, finValue: finItem ? finItem.value : 0 };
+}).filter(item => item.finValue > 0);
+
+let customRegionalPercent = null;
+
 const state = {
   your: {},
   their: {}
@@ -193,7 +251,15 @@ const els = {
   sortFilter: document.getElementById("sortFilter"),
   itemsContainer: document.getElementById("itemsContainer"),
   template: document.getElementById("itemTemplate"),
-  themeBtn: document.getElementById("themeBtn")
+  themeBtn: document.getElementById("themeBtn"),
+  pageToggleBtn: document.getElementById("pageToggleBtn"),
+  calculatorView: document.getElementById("calculatorView"),
+  robuxView: document.getElementById("robuxView"),
+  robuxItemsContainer: document.getElementById("robuxItemsContainer"),
+  conquerorPriceInput: document.getElementById("conquerorPriceInput"),
+  regionalGoBtn: document.getElementById("regionalGoBtn"),
+  regionalResetBtn: document.getElementById("regionalResetBtn"),
+  regionalPercentText: document.getElementById("regionalPercentText")
 };
 
 function formatValue(value) {
@@ -394,6 +460,114 @@ document.querySelectorAll(".clear-btn").forEach(button => {
 
 els.themeBtn.addEventListener("click", () => {
   document.body.classList.toggle("light");
+});
+
+
+function formatRobux(value) {
+  return Number(value.toFixed(2)).toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
+
+function makeRobuxColumn(label, robux, finValue, extraClass = "") {
+  const ratio = robux / finValue;
+  return `
+    <div class="robux-column ${extraClass}">
+      <h4>${label}</h4>
+      <p><span>Robux value:</span><strong>${formatRobux(robux)}</strong></p>
+      <p><span>Fin value:</span><strong>${formatValue(finValue)}</strong></p>
+      <p><span>Robux/fin value:</span><strong>${formatRobux(ratio)}</strong></p>
+    </div>
+  `;
+}
+
+function renderRobuxItems() {
+  const categoryOrder = ["Gamepasses", "Perm Fruits", "Bundles"];
+  els.robuxItemsContainer.innerHTML = "";
+
+  categoryOrder.forEach(category => {
+    const categoryItems = ROBUX_ITEMS
+      .filter(item => item.category === category)
+      .sort((a, b) => (b.maxRobux / b.finValue) - (a.maxRobux / a.finValue));
+
+    if (!categoryItems.length) return;
+
+    const section = document.createElement("section");
+    section.className = "robux-category-section";
+
+    const heading = document.createElement("h2");
+    heading.className = "robux-category-heading";
+    heading.textContent = category;
+    section.appendChild(heading);
+
+    categoryItems.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "robux-card";
+
+      const columns = customRegionalPercent === null
+        ? [
+            makeRobuxColumn("Max regional", item.maxRobux, item.finValue),
+            makeRobuxColumn("50% regional", item.maxRobux * 0.5, item.finValue),
+            makeRobuxColumn("30% regional", item.maxRobux * 0.3, item.finValue)
+          ].join("")
+        : makeRobuxColumn(`${formatRobux(customRegionalPercent)}% regional`, item.maxRobux * (customRegionalPercent / 100), item.finValue, "single-regional-column");
+
+      card.innerHTML = `
+        <div class="robux-card-title">
+          <h3>${item.name}</h3>
+          <span>${item.category}</span>
+        </div>
+        <div class="robux-columns">${columns}</div>
+      `;
+
+      section.appendChild(card);
+    });
+
+    els.robuxItemsContainer.appendChild(section);
+  });
+}
+
+function showCalculatorView() {
+  els.calculatorView.classList.remove("hidden-view");
+  els.robuxView.classList.add("hidden-view");
+  els.pageToggleBtn.textContent = "Robux Per Fin Values";
+}
+
+function showRobuxView() {
+  els.calculatorView.classList.add("hidden-view");
+  els.robuxView.classList.remove("hidden-view");
+  els.pageToggleBtn.textContent = "Trade Calculator";
+  renderRobuxItems();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+els.pageToggleBtn.addEventListener("click", () => {
+  if (els.robuxView.classList.contains("hidden-view")) {
+    showRobuxView();
+  } else {
+    showCalculatorView();
+  }
+});
+
+els.regionalGoBtn.addEventListener("click", () => {
+  const value = Number(els.conquerorPriceInput.value);
+  if (!Number.isFinite(value) || value < 750 || value > 2500) {
+    els.regionalPercentText.textContent = "Please enter a Conqueror's Haki price from 750 to 2500.";
+    return;
+  }
+
+  customRegionalPercent = (value / 2500) * 100;
+  els.regionalPercentText.textContent = `Showing your specific regional pricing: ${formatRobux(customRegionalPercent)}% of max regional prices.`;
+  renderRobuxItems();
+});
+
+els.conquerorPriceInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") els.regionalGoBtn.click();
+});
+
+els.regionalResetBtn.addEventListener("click", () => {
+  customRegionalPercent = null;
+  els.conquerorPriceInput.value = "";
+  els.regionalPercentText.textContent = "Showing max, 50%, and 30% regional pricing columns.";
+  renderRobuxItems();
 });
 
 setupFilters();
