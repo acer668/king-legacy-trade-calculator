@@ -13,7 +13,9 @@
       <p id="siteSubtitle">Compare both sides of a trade using custom Fin values.</p>
     </div>
     <div class="top-actions">
-      <button id="pageToggleBtn" type="button">Robux Per Fin Values</button>
+      <button id="tradeNavBtn" type="button">Trade Calculator</button>
+      <button id="robuxNavBtn" type="button">Robux Per Fin</button>
+      <button id="dropNavBtn" type="button">Drop Boost Helper</button>
       <button id="themeBtn" type="button">Toggle Theme</button>
     </div>
   </header>
@@ -86,6 +88,57 @@
 
     <section id="robuxItemsContainer" class="robux-items-container"></section>
     <p class="robux-disclaimer">*all robux values are specific to your region. use the values provided to predict your robux per fin value if your un-altered pricing is not listed.</p>
+  </main>
+
+
+  <main id="dropView" class="hidden-view">
+    <section id="dropHome" class="drop-page active-drop-page">
+      <section class="drop-intro">
+        <h2>Drop Boost Helper</h2>
+        <p>Choose an item, then calculate how drop boosts change the final drop chance.</p>
+        <input id="dropSearchInput" type="search" placeholder="Search drops..." />
+      </section>
+      <section id="dropItemsContainer" class="drop-items-container"></section>
+      </section>
+
+    <section id="dropCalc" class="drop-page">
+      <p class="drop-side-disclaimer">*all drop chances are assuming the player is in the third sea.</p>
+      <button id="dropBackBtn" type="button" class="back-btn">← Back to Drops</button>
+      <section class="drop-calc-card">
+        <div class="drop-calc-header">
+          <div>
+            <p id="dropOriginalChance" class="drop-original-chance">Original Drop Chance: 0%</p>
+            <h2 id="dropSelectedName">Drop Item</h2>
+          </div>
+          <button id="dropResetBtn" type="button">Reset</button>
+        </div>
+
+        <div class="drop-input-grid">
+          <label class="drop-check-row">
+            <input id="dropTwoX" type="checkbox" />
+            <span>2x Drop Boost (100%)</span>
+          </label>
+
+          <label class="drop-control-card">
+            <span>Chance Passive Boost <strong id="dropPassiveLabel">+0%</strong></span>
+            <input id="dropPassiveBoost" type="range" min="0" max="5" step="1" value="0" />
+            <small>Level: <strong id="dropPassiveLevel">0</strong> / 5 <span class="level-note">(5% each)</span></small>
+          </label>
+
+          <label class="drop-control-card">
+            <span>Extra Drop Boost % <strong id="dropExtraLabel">+0%</strong></span>
+            <input id="dropExtraBoost" type="number" min="0" max="99999" step="0.1" value="0" />
+          </label>
+        </div>
+
+        <div class="drop-result-card">
+          <span>Final Drop Chance</span>
+          <strong id="dropResult">0%</strong>
+          <small id="dropExpected">Average: —</small>
+          <small id="dropMultiplier">Multiplier: 1x</small>
+        </div>
+      </section>
+    </section>
   </main>
 
   <template id="itemTemplate">

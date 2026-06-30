@@ -231,6 +231,34 @@ const ROBUX_ITEMS = [
   return { ...item, finValue: finItem ? finItem.value : 0 };
 }).filter(item => item.finValue > 0);
 
+
+const DROP_ITEMS = [
+  { name: "Shellreaper", chance: 0.1 },
+  { name: "Draken Fangs", chance: 1.0 },
+  { name: "Acrodagger", chance: 0.35 },
+  { name: "Acromask", chance: 0.5 },
+  { name: "Infernal Manehelm", chance: 0.1 },
+  { name: "Abyssal Tyrant Armor", chance: 1 },
+  { name: "Dragon Bones", chance: 2 },
+  { name: "Sonata", chance: { Common: 1.0, Rare: 5.0, Epic: 10.0, Legendary: 20.0 } },
+  { name: "Pyreblade", chance: 0.5 },
+  { name: "Riptide Slayer", chance: 1.5 },
+  { name: "Saber", chance: 15 },
+  { name: "Abyssal Crab Axe", chance: 1 },
+  { name: "Dawnbreaker", chance: 5 },
+  { name: "Bloodshell Edge", chance: 0.2 },
+  { name: "Drakenfyr Cape", chance: 2 },
+  { name: "Galleon Ability", chance: 3 },
+  { name: "Shark Galleon Ability", chance: 3 },
+  { name: "Kraken Galleon Ability", chance: 3 },
+  { name: "Ghost Galleon Ability", chance: 3 },
+  { name: "Whale Galleon Ability", chance: 3 },
+  { name: "Dragon Fang", chance: 2.5 },
+  { name: "Royal Galleon Ability", chance: 3 }
+];
+
+let selectedDropItem = DROP_ITEMS[0];
+
 let customRegionalPercent = null;
 
 const state = {
@@ -252,16 +280,36 @@ const els = {
   itemsContainer: document.getElementById("itemsContainer"),
   template: document.getElementById("itemTemplate"),
   themeBtn: document.getElementById("themeBtn"),
-  pageToggleBtn: document.getElementById("pageToggleBtn"),
+  tradeNavBtn: document.getElementById("tradeNavBtn"),
+  robuxNavBtn: document.getElementById("robuxNavBtn"),
+  dropNavBtn: document.getElementById("dropNavBtn"),
   calculatorView: document.getElementById("calculatorView"),
   robuxView: document.getElementById("robuxView"),
+  dropView: document.getElementById("dropView"),
   robuxItemsContainer: document.getElementById("robuxItemsContainer"),
   siteTitle: document.getElementById("siteTitle"),
   siteSubtitle: document.getElementById("siteSubtitle"),
   conquerorPriceInput: document.getElementById("conquerorPriceInput"),
   regionalGoBtn: document.getElementById("regionalGoBtn"),
   regionalResetBtn: document.getElementById("regionalResetBtn"),
-  regionalPercentText: document.getElementById("regionalPercentText")
+  regionalPercentText: document.getElementById("regionalPercentText"),
+  dropHome: document.getElementById("dropHome"),
+  dropCalc: document.getElementById("dropCalc"),
+  dropItemsContainer: document.getElementById("dropItemsContainer"),
+  dropSearchInput: document.getElementById("dropSearchInput"),
+  dropBackBtn: document.getElementById("dropBackBtn"),
+  dropResetBtn: document.getElementById("dropResetBtn"),
+  dropSelectedName: document.getElementById("dropSelectedName"),
+  dropOriginalChance: document.getElementById("dropOriginalChance"),
+  dropTwoX: document.getElementById("dropTwoX"),
+  dropPassiveBoost: document.getElementById("dropPassiveBoost"),
+  dropExtraBoost: document.getElementById("dropExtraBoost"),
+  dropPassiveLabel: document.getElementById("dropPassiveLabel"),
+  dropExtraLabel: document.getElementById("dropExtraLabel"),
+  dropPassiveLevel: document.getElementById("dropPassiveLevel"),
+  dropResult: document.getElementById("dropResult"),
+  dropExpected: document.getElementById("dropExpected"),
+  dropMultiplier: document.getElementById("dropMultiplier")
 };
 
 function formatValue(value) {
@@ -277,12 +325,16 @@ function getItem(name) {
 function addItem(side, itemName) {
   state[side][itemName] = (state[side][itemName] || 0) + 1;
   renderSelected();
+renderDropItems();
+showCalculatorView();
 }
 
 function changeQty(side, itemName, delta) {
   state[side][itemName] = (state[side][itemName] || 0) + delta;
   if (state[side][itemName] <= 0) delete state[side][itemName];
   renderSelected();
+renderDropItems();
+showCalculatorView();
 }
 
 function setQty(side, itemName, value) {
@@ -295,6 +347,8 @@ function setQty(side, itemName, value) {
   }
 
   renderSelected();
+renderDropItems();
+showCalculatorView();
 }
 
 function sideTotal(side) {
@@ -349,6 +403,8 @@ function renderSelectedList(side, container) {
     row.querySelector(".remove-btn").addEventListener("click", () => {
       delete state[side][name];
       renderSelected();
+renderDropItems();
+showCalculatorView();
     });
 
     container.appendChild(row);
@@ -457,6 +513,8 @@ document.querySelectorAll(".clear-btn").forEach(button => {
   button.addEventListener("click", () => {
     state[button.dataset.side] = {};
     renderSelected();
+renderDropItems();
+showCalculatorView();
   });
 });
 
@@ -527,33 +585,50 @@ function renderRobuxItems() {
   });
 }
 
+function setActiveNav(active) {
+  [els.tradeNavBtn, els.robuxNavBtn, els.dropNavBtn].forEach(btn => btn.classList.remove("active-nav"));
+  if (active === "trade") els.tradeNavBtn.classList.add("active-nav");
+  if (active === "robux") els.robuxNavBtn.classList.add("active-nav");
+  if (active === "drop") els.dropNavBtn.classList.add("active-nav");
+}
+
 function showCalculatorView() {
   els.calculatorView.classList.remove("hidden-view");
   els.robuxView.classList.add("hidden-view");
-  els.pageToggleBtn.textContent = "Robux Per Fin Values";
+  els.dropView.classList.add("hidden-view");
   els.siteTitle.textContent = "King Legacy Trade Calculator";
   els.siteSubtitle.textContent = "Compare both sides of a trade using custom Fin values.";
   document.title = "King Legacy Trade Calculator";
+  setActiveNav("trade");
 }
 
 function showRobuxView() {
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.remove("hidden-view");
-  els.pageToggleBtn.textContent = "Trade Calculator";
+  els.dropView.classList.add("hidden-view");
   els.siteTitle.textContent = "King Legacy Robux Per Fin Calculator";
   els.siteSubtitle.textContent = "Calculates the amount of Robux required to obtain 1 Fin through trading.";
   document.title = "King Legacy Robux Per Fin Calculator";
+  setActiveNav("robux");
   renderRobuxItems();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-els.pageToggleBtn.addEventListener("click", () => {
-  if (els.robuxView.classList.contains("hidden-view")) {
-    showRobuxView();
-  } else {
-    showCalculatorView();
-  }
-});
+function showDropView() {
+  els.calculatorView.classList.add("hidden-view");
+  els.robuxView.classList.add("hidden-view");
+  els.dropView.classList.remove("hidden-view");
+  els.siteTitle.textContent = "King Legacy Drop Boost Helper";
+  els.siteSubtitle.textContent = "Calculate final drop chances using gamepass, passive, and extra drop boosts.";
+  document.title = "King Legacy Drop Boost Helper";
+  setActiveNav("drop");
+  renderDropItems();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+els.tradeNavBtn.addEventListener("click", showCalculatorView);
+els.robuxNavBtn.addEventListener("click", showRobuxView);
+els.dropNavBtn.addEventListener("click", showDropView);
 
 els.regionalGoBtn.addEventListener("click", () => {
   const value = Number(els.conquerorPriceInput.value);
@@ -578,6 +653,120 @@ els.regionalResetBtn.addEventListener("click", () => {
   renderRobuxItems();
 });
 
+
+function formatChanceValue(value) {
+  return `${Number(value.toFixed(6))}%`;
+}
+
+function dropChanceLabel(chance) {
+  if (typeof chance === "object") {
+    return "Original Drop Chances: " + Object.entries(chance).map(([tier, value]) => `${tier}: ${value}%`).join(" • ");
+  }
+  return `Original Drop Chance: ${chance}%`;
+}
+
+function getDropBoostPercent() {
+  const twoX = els.dropTwoX.checked ? 100 : 0;
+  const passive = Number(els.dropPassiveBoost.value || 0) * 5;
+  let extra = Number(els.dropExtraBoost.value || 0);
+  if (!Number.isFinite(extra) || extra < 0) extra = 0;
+  if (extra > 99999) extra = 99999;
+  els.dropExtraBoost.value = String(extra);
+  return twoX + passive + extra;
+}
+
+function boostedDropChance(base, boostPercent) {
+  return base * (1 + boostPercent / 100);
+}
+
+function expectedDropText(chancePercent) {
+  if (!chancePercent || chancePercent <= 0) return "Average: —";
+  const kills = 100 / chancePercent;
+  return `Average: 1 drop every ${formatRobux(kills)} kills`;
+}
+
+function updateDropCalculator() {
+  const passivePercent = Number(els.dropPassiveBoost.value || 0) * 5;
+  const boostPercent = getDropBoostPercent();
+  const multiplier = 1 + boostPercent / 100;
+
+  els.dropPassiveLevel.textContent = String(els.dropPassiveBoost.value || 0);
+  els.dropPassiveLabel.textContent = `+${formatRobux(passivePercent)}%`;
+  els.dropExtraLabel.textContent = `+${formatRobux(Number(els.dropExtraBoost.value || 0))}%`;
+  els.dropOriginalChance.textContent = dropChanceLabel(selectedDropItem.chance);
+
+  if (typeof selectedDropItem.chance === "object") {
+    const lines = Object.entries(selectedDropItem.chance).map(([tier, base]) => {
+      const finalChance = boostedDropChance(base, boostPercent);
+      return `<span>${tier}: <strong>${formatChanceValue(finalChance)}</strong> <small>${expectedDropText(finalChance).replace("Average: ", "")}</small></span>`;
+    });
+    els.dropResult.innerHTML = lines.join("");
+    els.dropExpected.textContent = "Average shown beside each tier.";
+  } else {
+    const finalChance = boostedDropChance(selectedDropItem.chance, boostPercent);
+    els.dropResult.textContent = formatChanceValue(finalChance);
+    els.dropExpected.textContent = expectedDropText(finalChance);
+  }
+
+  els.dropMultiplier.textContent = `Multiplier: ${formatRobux(multiplier)}x`;
+}
+
+function openDropCalculator(item) {
+  selectedDropItem = item;
+  els.dropSelectedName.textContent = item.name;
+  els.dropTwoX.checked = false;
+  els.dropPassiveBoost.value = 0;
+  els.dropExtraBoost.value = 0;
+  els.dropHome.classList.remove("active-drop-page");
+  els.dropCalc.classList.add("active-drop-page");
+  updateDropCalculator();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderDropItems() {
+  const query = (els.dropSearchInput.value || "").trim().toLowerCase();
+  const drops = DROP_ITEMS.filter(item => item.name.toLowerCase().includes(query));
+  els.dropItemsContainer.innerHTML = "";
+
+  if (!drops.length) {
+    els.dropItemsContainer.innerHTML = `<p class="category-title">No drops found.</p>`;
+    return;
+  }
+
+  drops.forEach(item => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "drop-item-card";
+    card.innerHTML = `
+      <span class="drop-icon-placeholder">${item.name.slice(0, 1)}</span>
+      <span>
+        <strong>${item.name}</strong>
+        <small>${dropChanceLabel(item.chance)}</small>
+      </span>
+    `;
+    card.addEventListener("click", () => openDropCalculator(item));
+    els.dropItemsContainer.appendChild(card);
+  });
+}
+
+els.dropSearchInput.addEventListener("input", renderDropItems);
+els.dropBackBtn.addEventListener("click", () => {
+  els.dropCalc.classList.remove("active-drop-page");
+  els.dropHome.classList.add("active-drop-page");
+});
+els.dropResetBtn.addEventListener("click", () => {
+  els.dropTwoX.checked = false;
+  els.dropPassiveBoost.value = 0;
+  els.dropExtraBoost.value = 0;
+  updateDropCalculator();
+});
+[els.dropTwoX, els.dropPassiveBoost, els.dropExtraBoost].forEach(input => {
+  input.addEventListener("input", updateDropCalculator);
+  input.addEventListener("change", updateDropCalculator);
+});
+
 setupFilters();
 renderItems();
 renderSelected();
+renderDropItems();
+showCalculatorView();

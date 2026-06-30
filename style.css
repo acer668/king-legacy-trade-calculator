@@ -481,3 +481,259 @@ body.light .robux-disclaimer {
   font-size: 26px;
   margin: 4px 4px 0;
 }
+
+.active-nav {
+  outline: 2px solid var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(54, 212, 255, 0.14);
+}
+
+.drop-page {
+  display: none;
+}
+
+.drop-page.active-drop-page {
+  display: block;
+}
+
+.drop-intro,
+.drop-items-container,
+.drop-calc-card {
+  background: rgba(17, 30, 51, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.drop-intro {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.drop-intro h2,
+.drop-calc-card h2 {
+  color: var(--accent-2);
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.drop-intro p {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.drop-items-container {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.drop-item-card {
+  width: 100%;
+  min-height: 94px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.drop-item-card:hover {
+  background: rgba(54, 212, 255, 0.1);
+}
+
+.drop-icon-placeholder {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, var(--card-2), rgba(54, 212, 255, 0.24));
+  border: 1px solid var(--border);
+  color: var(--accent-2);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.drop-item-card strong,
+.drop-item-card small {
+  display: block;
+}
+
+.drop-item-card strong {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.drop-item-card small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.back-btn {
+  margin-bottom: 14px;
+}
+
+.drop-calc-card {
+  padding: 22px;
+}
+
+.drop-calc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.drop-original-chance {
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.drop-input-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.drop-check-row,
+.drop-control-card,
+.drop-result-card {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.drop-check-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+.drop-check-row input {
+  width: 24px;
+  height: 24px;
+}
+
+.drop-control-card {
+  display: grid;
+  gap: 10px;
+}
+
+.drop-control-card span {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+.drop-control-card strong {
+  color: var(--good);
+}
+
+.drop-control-card small {
+  color: var(--muted);
+}
+
+.drop-control-card input[type="range"] {
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+.drop-result-card {
+  text-align: center;
+  background: linear-gradient(145deg, var(--card), var(--card-2));
+}
+
+.drop-result-card span,
+.drop-result-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.drop-result-card > span {
+  color: var(--accent-2);
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.drop-result-card > strong {
+  display: block;
+  font-size: clamp(40px, 6vw, 68px);
+  margin: 10px 0;
+  color: var(--text);
+}
+
+#dropResult span {
+  display: block;
+  font-size: 26px;
+  margin: 10px 0;
+  color: var(--text);
+}
+
+#dropResult small {
+  display: inline;
+  font-size: 14px;
+  margin-left: 8px;
+  color: var(--muted);
+}
+
+.drop-disclaimer {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .drop-calc-header,
+  .drop-control-card span {
+    display: grid;
+  }
+}
+
+
+.drop-side-disclaimer {
+  position: fixed;
+  top: 150px;
+  left: 18px;
+  width: 260px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 700;
+  opacity: 0.95;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  z-index: 5;
+}
+
+.level-note {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 1500px) {
+  .drop-side-disclaimer {
+    position: static;
+    width: auto;
+    margin: 0 0 14px 0;
+    background: rgba(17, 30, 51, 0.72);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+}
