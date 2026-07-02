@@ -1,0 +1,95 @@
+[
+  {
+    "name": "Shellreaper",
+    "chance": 0.1
+  },
+  {
+    "name": "Draken Fangs",
+    "chance": 1
+  },
+  {
+    "name": "Acrodagger",
+    "chance": 0.35
+  },
+  {
+    "name": "Acromask",
+    "chance": 0.5
+  },
+  {
+    "name": "Infernal Manehelm",
+    "chance": 0.1
+  },
+  {
+    "name": "Abyssal Tyrant Armor",
+    "chance": 1
+  },
+  {
+    "name": "Dragon Bones",
+    "chance": 2
+  },
+  {
+    "name": "Sonata",
+    "chance": {
+      "Common": 1,
+      "Rare": 5,
+      "Epic": 10,
+      "Legendary": 20
+    }
+  },
+  {
+    "name": "Pyreblade",
+    "chance": 0.5
+  },
+  {
+    "name": "Riptide Slayer",
+    "chance": 1.5
+  },
+  {
+    "name": "Saber",
+    "chance": 15
+  },
+  {
+    "name": "Abyssal Crab Axe",
+    "chance": 1
+  },
+  {
+    "name": "Dawnbreaker",
+    "chance": 5
+  },
+  {
+    "name": "Bloodshell Edge",
+    "chance": 0.2
+  },
+  {
+    "name": "Drakenfyr Cape",
+    "chance": 2
+  },
+  {
+    "name": "Galleon Ability",
+    "chance": 3
+  },
+  {
+    "name": "Shark Galleon Ability",
+    "chance": 3
+  },
+  {
+    "name": "Kraken Galleon Ability",
+    "chance": 3
+  },
+  {
+    "name": "Ghost Galleon Ability",
+    "chance": 3
+  },
+  {
+    "name": "Whale Galleon Ability",
+    "chance": 3
+  },
+  {
+    "name": "Dragon Fang",
+    "chance": 2.5
+  },
+  {
+    "name": "Royal Galleon Ability",
+    "chance": 3
+  }
+]

@@ -1,0 +1,232 @@
+[
+  {
+    "name": "Volt Bundle",
+    "category": "Bundles",
+    "maxRobux": 3399
+  },
+  {
+    "name": "Hellroot Bundle",
+    "category": "Bundles",
+    "maxRobux": 4999
+  },
+  {
+    "name": "Conqueror",
+    "category": "Gamepasses",
+    "maxRobux": 2500
+  },
+  {
+    "name": "Primal Pack",
+    "category": "Bundles",
+    "maxRobux": 2999
+  },
+  {
+    "name": "BlazeIce Pack",
+    "category": "Bundles",
+    "maxRobux": 999
+  },
+  {
+    "name": "Night Blade",
+    "category": "Gamepasses",
+    "maxRobux": 1000
+  },
+  {
+    "name": "+1 Slot (Passive)",
+    "category": "Gamepasses",
+    "maxRobux": 1000
+  },
+  {
+    "name": "2x Money",
+    "category": "Gamepasses",
+    "maxRobux": 1000
+  },
+  {
+    "name": "2x Drop Item",
+    "category": "Gamepasses",
+    "maxRobux": 750
+  },
+  {
+    "name": "Coffin Boat",
+    "category": "Gamepasses",
+    "maxRobux": 500
+  },
+  {
+    "name": "+1 Fruit Storage",
+    "category": "Gamepasses",
+    "maxRobux": 375
+  },
+  {
+    "name": "Legacy Pose",
+    "category": "Gamepasses",
+    "maxRobux": 350
+  },
+  {
+    "name": "Animation (Any)",
+    "category": "Gamepasses",
+    "maxRobux": 100
+  },
+  {
+    "name": "2x exp (12 hours)",
+    "category": "Gamepasses",
+    "maxRobux": 699
+  },
+  {
+    "name": "Race Rerolls",
+    "category": "Gamepasses",
+    "maxRobux": 75
+  },
+  {
+    "name": "Refund Stats",
+    "category": "Gamepasses",
+    "maxRobux": 25
+  },
+  {
+    "name": "Perm Dragon",
+    "category": "Perm Fruits",
+    "maxRobux": 3250
+  },
+  {
+    "name": "Perm Dough",
+    "category": "Perm Fruits",
+    "maxRobux": 2850
+  },
+  {
+    "name": "Perm Phoenix",
+    "category": "Perm Fruits",
+    "maxRobux": 3125
+  },
+  {
+    "name": "Perm Pter",
+    "category": "Perm Fruits",
+    "maxRobux": 3275
+  },
+  {
+    "name": "Perm Tree",
+    "category": "Perm Fruits",
+    "maxRobux": 2500
+  },
+  {
+    "name": "Perm Gate",
+    "category": "Perm Fruits",
+    "maxRobux": 2350
+  },
+  {
+    "name": "Perm Toy",
+    "category": "Perm Fruits",
+    "maxRobux": 3000
+  },
+  {
+    "name": "Perm Melody",
+    "category": "Perm Fruits",
+    "maxRobux": 2750
+  },
+  {
+    "name": "Perm Demon",
+    "category": "Perm Fruits",
+    "maxRobux": 2950
+  },
+  {
+    "name": "Perm Quake",
+    "category": "Perm Fruits",
+    "maxRobux": 1800
+  },
+  {
+    "name": "Perm Rumble",
+    "category": "Perm Fruits",
+    "maxRobux": 1500
+  },
+  {
+    "name": "Perm Gas",
+    "category": "Perm Fruits",
+    "maxRobux": 1250
+  },
+  {
+    "name": "Perm Control",
+    "category": "Perm Fruits",
+    "maxRobux": 1075
+  },
+  {
+    "name": "Perm Light",
+    "category": "Perm Fruits",
+    "maxRobux": 1200
+  },
+  {
+    "name": "Perm Snow",
+    "category": "Perm Fruits",
+    "maxRobux": 1350
+  },
+  {
+    "name": "Perm Spino",
+    "category": "Perm Fruits",
+    "maxRobux": 1100
+  },
+  {
+    "name": "Perm Gravity",
+    "category": "Perm Fruits",
+    "maxRobux": 1050
+  },
+  {
+    "name": "Perm Buddha",
+    "category": "Perm Fruits",
+    "maxRobux": 975
+  },
+  {
+    "name": "Perm Flame",
+    "category": "Perm Fruits",
+    "maxRobux": 1150
+  },
+  {
+    "name": "Perm Magma",
+    "category": "Perm Fruits",
+    "maxRobux": 1150
+  },
+  {
+    "name": "Perm Brachio",
+    "category": "Perm Fruits",
+    "maxRobux": 1075
+  },
+  {
+    "name": "Perm Venom",
+    "category": "Perm Fruits",
+    "maxRobux": 975
+  },
+  {
+    "name": "Perm Ice",
+    "category": "Perm Fruits",
+    "maxRobux": 1100
+  },
+  {
+    "name": "Perm Dark",
+    "category": "Perm Fruits",
+    "maxRobux": 975
+  },
+  {
+    "name": "Perm Love",
+    "category": "Perm Fruits",
+    "maxRobux": 600
+  },
+  {
+    "name": "Perm Allo",
+    "category": "Perm Fruits",
+    "maxRobux": 1075
+  },
+  {
+    "name": "Perm Rubber",
+    "category": "Perm Fruits",
+    "maxRobux": 725
+  },
+  {
+    "name": "Perm Paw",
+    "category": "Perm Fruits",
+    "maxRobux": 300
+  },
+  {
+    "name": "Perm Telekinesis",
+    "category": "Perm Fruits",
+    "maxRobux": 450
+  },
+  {
+    "name": "Perm Bomb",
+    "category": "Perm Fruits",
+    "maxRobux": 125
+  }
+]

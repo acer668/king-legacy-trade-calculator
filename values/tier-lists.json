@@ -1,0 +1,12 @@
+{
+  "PvP/fruits": "assets/tier-lists/PvP/fruits/tier-list.png",
+  "PvP/swords": "assets/tier-lists/PvP/swords/tier-list.png",
+  "PvP/fighting-styles": "assets/tier-lists/PvP/fighting-styles/tier-list.png",
+  "PvP/passives": "assets/tier-lists/PvP/passives/tier-list.png",
+  "PvE/fruits": "assets/tier-lists/PvE/fruits/tier-list.png",
+  "PvE/swords": "assets/tier-lists/PvE/swords/tier-list.png",
+  "PvE/fighting-styles": "assets/tier-lists/PvE/fighting-styles/tier-list.png",
+  "PvE/passives": "assets/tier-lists/PvE/passives/tier-list.png",
+  "PvP/accessories": "assets/tier-lists/PvP/accessories/tier-list.png",
+  "PvE/accessories": "assets/tier-lists/PvE/accessories/tier-list.png"
+}

@@ -1,0 +1,13 @@
+FORMAT:
+1-category
+2-name
+3-information(in quotation marks)
+4-media
+5-OP(original poster)
+6-date posted
+
+MEDIA ORGANIZATION:
+Put images/videos/files inside assets/info-sheets/category-name/ and put the file path on line 4.
+Example media path: assets/info-sheets/weapons/acrodaggers.png
+If there is no media, leave line 4 blank or type none.
+

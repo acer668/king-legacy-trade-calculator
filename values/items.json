@@ -1,0 +1,834 @@
+[
+  {
+    "name": "Demon Fruit",
+    "category": "Fruits",
+    "value": 7
+  },
+  {
+    "name": "Tree Fruit",
+    "category": "Fruits",
+    "value": 7
+  },
+  {
+    "name": "Dragon Fruit",
+    "category": "Fruits",
+    "value": 6
+  },
+  {
+    "name": "Phoenix Fruit",
+    "category": "Fruits",
+    "value": 5
+  },
+  {
+    "name": "Gate Fruit",
+    "category": "Fruits",
+    "value": 5
+  },
+  {
+    "name": "Dough Fruit",
+    "category": "Fruits",
+    "value": 5
+  },
+  {
+    "name": "Pter Fruit",
+    "category": "Fruits",
+    "value": 3
+  },
+  {
+    "name": "Melody Fruit",
+    "category": "Fruits",
+    "value": 2
+  },
+  {
+    "name": "Toy Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Rumble Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Gas Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Magma Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Light Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Quake Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Flame Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Snow Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Ice Fruit",
+    "category": "Fruits",
+    "value": 1
+  },
+  {
+    "name": "Control Fruit",
+    "category": "Fruits",
+    "value": 0.75
+  },
+  {
+    "name": "Buddha Fruit",
+    "category": "Fruits",
+    "value": 0.75
+  },
+  {
+    "name": "Gravity Fruit",
+    "category": "Fruits",
+    "value": 0.75
+  },
+  {
+    "name": "Dark Fruit",
+    "category": "Fruits",
+    "value": 0.75
+  },
+  {
+    "name": "Noirceur",
+    "category": "Swords",
+    "value": 2900
+  },
+  {
+    "name": "Cerulean Blossom",
+    "category": "Swords",
+    "value": 800
+  },
+  {
+    "name": "Ancient Sword",
+    "category": "Swords",
+    "value": 130
+  },
+  {
+    "name": "Abyssal Crab Axe",
+    "category": "Swords",
+    "value": 20
+  },
+  {
+    "name": "Ethereal",
+    "category": "Swords",
+    "value": 4.5
+  },
+  {
+    "name": "Phoenix Blade",
+    "category": "Swords",
+    "value": 4.5
+  },
+  {
+    "name": "Acroscythe",
+    "category": "Swords",
+    "value": 4
+  },
+  {
+    "name": "Scepter of Flames",
+    "category": "Swords",
+    "value": 3.5
+  },
+  {
+    "name": "Authentic Triple Katana",
+    "category": "Swords",
+    "value": 3.5
+  },
+  {
+    "name": "Avalon",
+    "category": "Swords",
+    "value": 1
+  },
+  {
+    "name": "Longaevus",
+    "category": "Swords",
+    "value": 1
+  },
+  {
+    "name": "Daybreak Cleaver",
+    "category": "Swords",
+    "value": 1
+  },
+  {
+    "name": "Aquatic Anchor",
+    "category": "Swords",
+    "value": 1
+  },
+  {
+    "name": "Dragon Band",
+    "category": "Accessories",
+    "value": 350
+  },
+  {
+    "name": "EXP Crown",
+    "category": "Accessories",
+    "value": 100
+  },
+  {
+    "name": "Crustacean Armor",
+    "category": "Accessories",
+    "value": 80
+  },
+  {
+    "name": "Water Kimono",
+    "category": "Accessories",
+    "value": 42.5
+  },
+  {
+    "name": "Night Necklace",
+    "category": "Accessories",
+    "value": 19
+  },
+  {
+    "name": "Drakenfyr Cape",
+    "category": "Accessories",
+    "value": 13
+  },
+  {
+    "name": "Oceanic tanto",
+    "category": "Accessories",
+    "value": 12
+  },
+  {
+    "name": "Dominion Cloak",
+    "category": "Accessories",
+    "value": 10
+  },
+  {
+    "name": "Inferno Cloak",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Floffy Glasses",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Glacies Shoulder",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Nativitatis",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Green Dryadalis",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Cervus",
+    "category": "Accessories",
+    "value": 4
+  },
+  {
+    "name": "Dark Beard Hat",
+    "category": "Accessories",
+    "value": 3.5
+  },
+  {
+    "name": "Abyss Sentinel Armor",
+    "category": "Accessories",
+    "value": 2
+  },
+  {
+    "name": "Metal Fin",
+    "category": "Accessories",
+    "value": 1.5
+  },
+  {
+    "name": "Oceanic Tentacle",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Tomoe Taiko",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Lucidus Coat",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Sally Crown",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Dragon Necklace",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Tengu Mask",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Oni Mask",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Shadow Cloak",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Sentinel Armor",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Flame Hair",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Crimson Scarf",
+    "category": "Accessories",
+    "value": 1
+  },
+  {
+    "name": "Dragon Fang",
+    "category": "Materials",
+    "value": 20,
+    "note": "1 for 20 fins"
+  },
+  {
+    "name": "Kraken's Ink",
+    "category": "Materials",
+    "value": 6.5,
+    "note": "1 for 6.5 fins"
+  },
+  {
+    "name": "Phoenix's Tear",
+    "category": "Materials",
+    "value": 5,
+    "note": "1 for 5 fins"
+  },
+  {
+    "name": "Crab Meat",
+    "category": "Materials",
+    "value": 4,
+    "note": "1 for 4 fins"
+  },
+  {
+    "name": "Hydra's Tail",
+    "category": "Materials",
+    "value": 3,
+    "note": "1 for 3 fins"
+  },
+  {
+    "name": "Severed Kraken",
+    "category": "Materials",
+    "value": 3,
+    "note": "1 for 3 fins"
+  },
+  {
+    "name": "Sea King's Fin",
+    "category": "Materials",
+    "value": 1,
+    "note": "1 for 1 fin"
+  },
+  {
+    "name": "Serpent Fin",
+    "category": "Materials",
+    "value": 0.5,
+    "note": "2 for 1 fin"
+  },
+  {
+    "name": "Sea's Wraith",
+    "category": "Materials",
+    "value": 0.4,
+    "note": "2.5 for 1 fin"
+  },
+  {
+    "name": "Aqua Gem",
+    "category": "Materials",
+    "value": 0.2857142857142857,
+    "note": "3.5 for 1 fin"
+  },
+  {
+    "name": "Lost Ruby",
+    "category": "Materials",
+    "value": 0.25,
+    "note": "4 for 1 fin"
+  },
+  {
+    "name": "Essence of Fire",
+    "category": "Materials",
+    "value": 0.25,
+    "note": "4 for 1 fin"
+  },
+  {
+    "name": "Dragon Scale",
+    "category": "Materials",
+    "value": 0.2,
+    "note": "5 for 1 fin"
+  },
+  {
+    "name": "Twilight's Orb",
+    "category": "Materials",
+    "value": 0.2,
+    "note": "5 for 1 fin"
+  },
+  {
+    "name": "Samurai's Bandage",
+    "category": "Materials",
+    "value": 0.13333333333333333,
+    "note": "7.5 for 1 fin"
+  },
+  {
+    "name": "Sea King's Blood",
+    "category": "Materials",
+    "value": 0.1,
+    "note": "10 for 1 fin"
+  },
+  {
+    "name": "Dragon Orb",
+    "category": "Materials",
+    "value": 0.1,
+    "note": "10 for 1 fin"
+  },
+  {
+    "name": "Shark's Canine",
+    "category": "Materials",
+    "value": 0.08,
+    "note": "12.5 for 1 fin"
+  },
+  {
+    "name": "Pearl",
+    "category": "Materials",
+    "value": 0.06666666666666667,
+    "note": "15 for 1 fin"
+  },
+  {
+    "name": "Vampire's Vital Fluid",
+    "category": "Materials",
+    "value": 0.044444444444444446,
+    "note": "22.5 for 1 fin"
+  },
+  {
+    "name": "Lucidus's Totem",
+    "category": "Materials",
+    "value": 0.04,
+    "note": "25 for 1 fin"
+  },
+  {
+    "name": "Magma Crystal",
+    "category": "Materials",
+    "value": 0.04,
+    "note": "25 for 1 fin"
+  },
+  {
+    "name": "Ice Crystal",
+    "category": "Materials",
+    "value": 0.04,
+    "note": "25 for 1 fin"
+  },
+  {
+    "name": "Dark Beard's Totem",
+    "category": "Materials",
+    "value": 0.03333333333333333,
+    "note": "30 for 1 fin"
+  },
+  {
+    "name": "Shark's Fin",
+    "category": "Materials",
+    "value": 0.025,
+    "note": "40 for 1 fin"
+  },
+  {
+    "name": "Coral",
+    "category": "Materials",
+    "value": 0.025,
+    "note": "40 for 1 fin"
+  },
+  {
+    "name": "Gunpowder",
+    "category": "Materials",
+    "value": 0.0033333333333333335,
+    "note": "300 for 1 fin"
+  },
+  {
+    "name": "Fresh Fish",
+    "category": "Materials",
+    "value": 0.0026666666666666666,
+    "note": "375 for 1 fin"
+  },
+  {
+    "name": "Iron Ingot",
+    "category": "Materials",
+    "value": 0.002,
+    "note": "500 for 1 fin"
+  },
+  {
+    "name": "Sea Artifact",
+    "category": "Materials",
+    "value": 0.002,
+    "note": "500 for 1 fin"
+  },
+  {
+    "name": "Rusted Scrap",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Carrot",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Pile of Bones",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Angellic's Feather",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Thief's Rag",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Leather",
+    "category": "Materials",
+    "value": 0.0016666666666666668,
+    "note": "600 for 1 fin"
+  },
+  {
+    "name": "Undead's Ooze",
+    "category": "Materials",
+    "value": 0.0013333333333333333,
+    "note": "750 for 1 fin"
+  },
+  {
+    "name": "Volt Bundle",
+    "category": "Gamepasses",
+    "value": 775
+  },
+  {
+    "name": "Conqueror",
+    "category": "Gamepasses",
+    "value": 725
+  },
+  {
+    "name": "BlazeIce Pack",
+    "category": "Gamepasses",
+    "value": 375
+  },
+  {
+    "name": "Night Blade",
+    "category": "Gamepasses",
+    "value": 300
+  },
+  {
+    "name": "+1 Slot (Passive)",
+    "category": "Gamepasses",
+    "value": 290
+  },
+  {
+    "name": "2x Money",
+    "category": "Gamepasses",
+    "value": 265
+  },
+  {
+    "name": "2x Drop Item",
+    "category": "Gamepasses",
+    "value": 240
+  },
+  {
+    "name": "Coffin Boat",
+    "category": "Gamepasses",
+    "value": 90
+  },
+  {
+    "name": "+1 Fruit Storage",
+    "category": "Gamepasses",
+    "value": 85
+  },
+  {
+    "name": "Legacy Pose",
+    "category": "Gamepasses",
+    "value": 80
+  },
+  {
+    "name": "Animation (Any)",
+    "category": "Gamepasses",
+    "value": 30
+  },
+  {
+    "name": "2x exp (12 hours)",
+    "category": "Gamepasses",
+    "value": 5.5
+  },
+  {
+    "name": "Race Rerolls",
+    "category": "Gamepasses",
+    "value": 4
+  },
+  {
+    "name": "Refund Stats",
+    "category": "Gamepasses",
+    "value": 2.5
+  },
+  {
+    "name": "Hellroot Bundle",
+    "category": "Bundles",
+    "value": 1300
+  },
+  {
+    "name": "Primal Pack",
+    "category": "Bundles",
+    "value": 500
+  },
+  {
+    "name": "Acrospear (Mats)",
+    "category": "Bundles",
+    "value": 32.5
+  },
+  {
+    "name": "Phoenix Blade V2 (Mats)",
+    "category": "Bundles",
+    "value": 27.5
+  },
+  {
+    "name": "Dark Stone (Mats)",
+    "category": "Bundles",
+    "value": 25.5
+  },
+  {
+    "name": "Spark Stone (Mats)",
+    "category": "Bundles",
+    "value": 22.5
+  },
+  {
+    "name": "Poison Stone (Mats)",
+    "category": "Bundles",
+    "value": 22.5
+  },
+  {
+    "name": "Cyborg V2 (Mats)",
+    "category": "Bundles",
+    "value": 22.1
+  },
+  {
+    "name": "Blaze Stone (Mats)",
+    "category": "Bundles",
+    "value": 14.5
+  },
+  {
+    "name": "Abyss Stone (Mats)",
+    "category": "Bundles",
+    "value": 13
+  },
+  {
+    "name": "Gale Stone (Mats)",
+    "category": "Bundles",
+    "value": 11.5
+  },
+  {
+    "name": "Light Stone (Mats)",
+    "category": "Bundles",
+    "value": 7
+  },
+  {
+    "name": "Bloodthirsty Stone (Mats)",
+    "category": "Bundles",
+    "value": 6
+  },
+  {
+    "name": "Glacier Stone (Mats)",
+    "category": "Bundles",
+    "value": 5.5
+  },
+  {
+    "name": "Tempestas Stone (Mats)",
+    "category": "Bundles",
+    "value": 5
+  },
+  {
+    "name": "Disillusion Stone (Mats)",
+    "category": "Bundles",
+    "value": 1
+  },
+  {
+    "name": "Perm Dragon",
+    "category": "Perm Fruits",
+    "value": 825
+  },
+  {
+    "name": "Perm Dough",
+    "category": "Perm Fruits",
+    "value": 775
+  },
+  {
+    "name": "Perm Phoenix",
+    "category": "Perm Fruits",
+    "value": 735
+  },
+  {
+    "name": "Perm Pter",
+    "category": "Perm Fruits",
+    "value": 725
+  },
+  {
+    "name": "Perm Tree",
+    "category": "Perm Fruits",
+    "value": 700
+  },
+  {
+    "name": "Perm Gate",
+    "category": "Perm Fruits",
+    "value": 690
+  },
+  {
+    "name": "Perm Toy",
+    "category": "Perm Fruits",
+    "value": 637.5
+  },
+  {
+    "name": "Perm Melody",
+    "category": "Perm Fruits",
+    "value": 615
+  },
+  {
+    "name": "Perm Demon",
+    "category": "Perm Fruits",
+    "value": 550
+  },
+  {
+    "name": "Perm Quake",
+    "category": "Perm Fruits",
+    "value": 425
+  },
+  {
+    "name": "Perm Rumble",
+    "category": "Perm Fruits",
+    "value": 410
+  },
+  {
+    "name": "Perm Gas",
+    "category": "Perm Fruits",
+    "value": 410
+  },
+  {
+    "name": "Perm Control",
+    "category": "Perm Fruits",
+    "value": 325
+  },
+  {
+    "name": "Perm Light",
+    "category": "Perm Fruits",
+    "value": 275
+  },
+  {
+    "name": "Perm Snow",
+    "category": "Perm Fruits",
+    "value": 265
+  },
+  {
+    "name": "Perm Spino",
+    "category": "Perm Fruits",
+    "value": 250
+  },
+  {
+    "name": "Perm Gravity",
+    "category": "Perm Fruits",
+    "value": 215
+  },
+  {
+    "name": "Perm Buddha",
+    "category": "Perm Fruits",
+    "value": 210
+  },
+  {
+    "name": "Perm Flame",
+    "category": "Perm Fruits",
+    "value": 205
+  },
+  {
+    "name": "Perm Magma",
+    "category": "Perm Fruits",
+    "value": 190
+  },
+  {
+    "name": "Perm Brachio",
+    "category": "Perm Fruits",
+    "value": 175
+  },
+  {
+    "name": "Perm Venom",
+    "category": "Perm Fruits",
+    "value": 155
+  },
+  {
+    "name": "Perm Ice",
+    "category": "Perm Fruits",
+    "value": 125
+  },
+  {
+    "name": "Perm Dark",
+    "category": "Perm Fruits",
+    "value": 110
+  },
+  {
+    "name": "Perm Love",
+    "category": "Perm Fruits",
+    "value": 110
+  },
+  {
+    "name": "Perm Allo",
+    "category": "Perm Fruits",
+    "value": 50
+  },
+  {
+    "name": "Perm Rubber",
+    "category": "Perm Fruits",
+    "value": 45
+  },
+  {
+    "name": "Perm Paw",
+    "category": "Perm Fruits",
+    "value": 45
+  },
+  {
+    "name": "Perm Telekinesis",
+    "category": "Perm Fruits",
+    "value": 25
+  },
+  {
+    "name": "Perm Bomb",
+    "category": "Perm Fruits",
+    "value": 12.5
+  }
+]
