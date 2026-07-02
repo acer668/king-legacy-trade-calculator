@@ -1,6 +1,6 @@
 // Edit values here whenever you want to update the calculator.
 // Material entries like "2 for 1 fin" are converted into a per-item value.
-const ITEMS = [
+let ITEMS = [
   // Fruits
   { name: "Demon Fruit", category: "Fruits", value: 7 },
   { name: "Tree Fruit", category: "Fruits", value: 7 },
@@ -176,7 +176,7 @@ const ITEMS = [
 ];
 
 
-const ROBUX_ITEMS = [
+let ROBUX_ITEMS = [
   // Gamepasses
   { name: "Volt Bundle", category: "Bundles", maxRobux: 3399 },
   { name: "Hellroot Bundle", category: "Bundles", maxRobux: 4999 },
@@ -232,7 +232,7 @@ const ROBUX_ITEMS = [
 }).filter(item => item.finValue > 0);
 
 
-const DROP_ITEMS = [
+let DROP_ITEMS = [
   { name: "Shellreaper", chance: 0.1 },
   { name: "Draken Fangs", chance: 1.0 },
   { name: "Acrodagger", chance: 0.35 },
@@ -275,6 +275,14 @@ const PRIORITY_ROLE_ID = "1521378897759961110";
 const FEEDBACK_COOLDOWN_MS = 60 * 1000;
 const FEEDBACK_MAX_PER_HOUR = 5;
 const FEEDBACK_HISTORY_KEY = "kingLegacyFeedbackHistory";
+
+const INFO_REQUEST_WEBHOOK = "https://discord.com/api/webhooks/1522074534935658587/zV580X9eovjKkQZxK-3O6IrgWpNulC0iwMb3X5w6tciJ-GY6jh0gnpaqPGmhLnpO6HEB";
+const INFO_REQUEST_ROLE_IDS = ["1522074986494558330", "1521379287754604594"];
+const INFO_SHEETS_FILE = "info-sheets";
+const TIER_LIST_CONFIG_FILE = "values/tier-lists.json";
+let infoSheets = [];
+let tierListConfig = {};
+let infoRequestFiles = [];
 
 const FEEDBACK_TYPE_INFO = {
   bug: {
@@ -325,12 +333,18 @@ const els = {
   tradeNavBtn: document.getElementById("tradeNavBtn"),
   robuxNavBtn: document.getElementById("robuxNavBtn"),
   dropNavBtn: document.getElementById("dropNavBtn"),
+  infoNavBtn: document.getElementById("infoNavBtn"),
+  tierNavBtn: document.getElementById("tierNavBtn"),
   feedbackNavBtn: document.getElementById("feedbackNavBtn"),
   sideFeedbackBtn: document.getElementById("sideFeedbackBtn"),
   feedbackSidePanel: document.getElementById("feedbackSidePanel"),
+  openInfoRequestBtn: document.getElementById("openInfoRequestBtn"),
+  officialSideLinks: document.querySelector(".official-side-links"),
   calculatorView: document.getElementById("calculatorView"),
   robuxView: document.getElementById("robuxView"),
   dropView: document.getElementById("dropView"),
+  infoView: document.getElementById("infoView"),
+  tierView: document.getElementById("tierView"),
   feedbackView: document.getElementById("feedbackView"),
   robuxItemsContainer: document.getElementById("robuxItemsContainer"),
   siteTitle: document.getElementById("siteTitle"),
@@ -363,8 +377,76 @@ const els = {
   feedbackMessage: document.getElementById("feedbackMessage"),
   feedbackWordCount: document.getElementById("feedbackWordCount"),
   feedbackStatus: document.getElementById("feedbackStatus"),
-  feedbackSubmitBtn: document.getElementById("feedbackSubmitBtn")
+  feedbackSubmitBtn: document.getElementById("feedbackSubmitBtn"),
+  infoBoard: document.getElementById("infoBoard"),
+  infoEmpty: document.getElementById("infoEmpty"),
+  openInfoRequestBtn: document.getElementById("openInfoRequestBtn"),
+  infoRequestModal: document.getElementById("infoRequestModal"),
+  closeInfoRequestBtn: document.getElementById("closeInfoRequestBtn"),
+  infoRequestName: document.getElementById("infoRequestName"),
+  infoRequestTime: document.getElementById("infoRequestTime"),
+  infoRequestCategory: document.getElementById("infoRequestCategory"),
+  infoNewCategoryRow: document.getElementById("infoNewCategoryRow"),
+  infoRequestNewCategory: document.getElementById("infoRequestNewCategory"),
+  infoRequestInformation: document.getElementById("infoRequestInformation"),
+  infoRequestWordCount: document.getElementById("infoRequestWordCount"),
+  infoMediaSource: document.getElementById("infoMediaSource"),
+  infoMediaUrl: document.getElementById("infoMediaUrl"),
+  infoDropZone: document.getElementById("infoDropZone"),
+  infoMediaFiles: document.getElementById("infoMediaFiles"),
+  infoSelectedFiles: document.getElementById("infoSelectedFiles"),
+  infoRequestStatus: document.getElementById("infoRequestStatus"),
+  infoRequestSubmitBtn: document.getElementById("infoRequestSubmitBtn"),
+  infoDetailModal: document.getElementById("infoDetailModal"),
+  closeInfoDetailBtn: document.getElementById("closeInfoDetailBtn"),
+  infoDetailTitle: document.getElementById("infoDetailTitle"),
+  infoDetailCategory: document.getElementById("infoDetailCategory"),
+  infoDetailInformation: document.getElementById("infoDetailInformation"),
+  infoDetailMedia: document.getElementById("infoDetailMedia"),
+  infoDetailMeta: document.getElementById("infoDetailMeta"),
+  tierModeSelect: document.getElementById("tierModeSelect"),
+  tierCategorySelect: document.getElementById("tierCategorySelect"),
+  tierDisplayTitle: document.getElementById("tierDisplayTitle"),
+  tierDisplayPath: document.getElementById("tierDisplayPath"),
+  tierListImage: document.getElementById("tierListImage"),
+  tierMissingText: document.getElementById("tierMissingText")
 };
+
+
+async function loadValueFiles() {
+  try {
+    const [itemsResponse, robuxResponse, dropsResponse] = await Promise.all([
+      fetch("values/items.json", { cache: "no-store" }),
+      fetch("values/robux-values.json", { cache: "no-store" }),
+      fetch("values/drop-values.json", { cache: "no-store" })
+    ]);
+
+    if (itemsResponse.ok) {
+      const loadedItems = await itemsResponse.json();
+      if (Array.isArray(loadedItems) && loadedItems.length) ITEMS = loadedItems;
+    }
+
+    if (robuxResponse.ok) {
+      const loadedRobuxItems = await robuxResponse.json();
+      if (Array.isArray(loadedRobuxItems) && loadedRobuxItems.length) {
+        ROBUX_ITEMS = loadedRobuxItems.map(item => {
+          const finItem = ITEMS.find(valueItem => valueItem.name.toLowerCase() === item.name.toLowerCase());
+          return { ...item, finValue: item.finValue || (finItem ? finItem.value : 0) };
+        }).filter(item => item.finValue > 0);
+      }
+    }
+
+    if (dropsResponse.ok) {
+      const loadedDropItems = await dropsResponse.json();
+      if (Array.isArray(loadedDropItems) && loadedDropItems.length) {
+        DROP_ITEMS = loadedDropItems;
+        selectedDropItem = DROP_ITEMS[0];
+      }
+    }
+  } catch (error) {
+    console.warn("Using built-in values because external value files could not be loaded.", error);
+  }
+}
 
 function formatValue(value) {
   if (Number.isInteger(value)) return String(value);
@@ -380,6 +462,7 @@ function addItem(side, itemName) {
   state[side][itemName] = (state[side][itemName] || 0) + 1;
   renderSelected();
 renderDropItems();
+loadInfoSheets();
 showCalculatorView();
 }
 
@@ -388,6 +471,7 @@ function changeQty(side, itemName, delta) {
   if (state[side][itemName] <= 0) delete state[side][itemName];
   renderSelected();
 renderDropItems();
+loadInfoSheets();
 showCalculatorView();
 }
 
@@ -402,6 +486,7 @@ function setQty(side, itemName, value) {
 
   renderSelected();
 renderDropItems();
+loadInfoSheets();
 showCalculatorView();
 }
 
@@ -458,6 +543,7 @@ function renderSelectedList(side, container) {
       delete state[side][name];
       renderSelected();
 renderDropItems();
+loadInfoSheets();
 showCalculatorView();
     });
 
@@ -568,6 +654,7 @@ document.querySelectorAll(".clear-btn").forEach(button => {
     state[button.dataset.side] = {};
     renderSelected();
 renderDropItems();
+loadInfoSheets();
 showCalculatorView();
   });
 });
@@ -639,20 +726,86 @@ function renderRobuxItems() {
   });
 }
 
+function tierKey(mode, category) {
+  return `${mode}/${category}`;
+}
+
+function defaultTierPath(mode, category) {
+  return `assets/tier-lists/${mode}/${category}/tier-list.png`;
+}
+
+async function loadTierListConfig() {
+  try {
+    const response = await fetch(TIER_LIST_CONFIG_FILE, { cache: "no-store" });
+    if (!response.ok) throw new Error("No tier list config found.");
+    const loadedConfig = await response.json();
+    if (loadedConfig && typeof loadedConfig === "object") tierListConfig = loadedConfig;
+  } catch (error) {
+    tierListConfig = {};
+  }
+}
+
+function updateTierListDisplay() {
+  if (!els.tierModeSelect || !els.tierCategorySelect || !els.tierListImage) return;
+
+  const mode = els.tierModeSelect.value || "PvP";
+  const category = els.tierCategorySelect.value || "fruits";
+  const label = category
+    .split("-")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+  const configKey = tierKey(mode, category);
+  const imagePath = tierListConfig[configKey] || defaultTierPath(mode, category);
+
+  els.tierDisplayTitle.textContent = `${mode} ${label}`;
+  els.tierDisplayPath.textContent = imagePath;
+  els.tierMissingText.classList.add("hidden-view");
+  els.tierListImage.classList.add("hidden-view");
+  els.tierListImage.removeAttribute("src");
+
+  els.tierListImage.onload = () => {
+    els.tierMissingText.classList.add("hidden-view");
+    els.tierListImage.classList.remove("hidden-view");
+  };
+
+  els.tierListImage.onerror = () => {
+    els.tierListImage.classList.add("hidden-view");
+    els.tierMissingText.classList.remove("hidden-view");
+    els.tierMissingText.textContent = `No tier list image found for ${mode} ${label}. Add one at: ${imagePath}`;
+  };
+
+  els.tierListImage.alt = `${mode} ${label} tier list`;
+  els.tierListImage.src = imagePath;
+}
+
 function setActiveNav(active) {
-  [els.tradeNavBtn, els.robuxNavBtn, els.dropNavBtn, els.feedbackNavBtn].forEach(btn => btn.classList.remove("active-nav"));
+  [els.tradeNavBtn, els.robuxNavBtn, els.dropNavBtn, els.infoNavBtn, els.tierNavBtn, els.feedbackNavBtn].forEach(btn => btn.classList.remove("active-nav"));
   if (active === "trade") els.tradeNavBtn.classList.add("active-nav");
   if (active === "robux") els.robuxNavBtn.classList.add("active-nav");
   if (active === "drop") els.dropNavBtn.classList.add("active-nav");
+  if (active === "info") els.infoNavBtn.classList.add("active-nav");
+  if (active === "tier") els.tierNavBtn.classList.add("active-nav");
   if (active === "feedback") els.feedbackNavBtn.classList.add("active-nav");
+}
+
+function setInfoPlusVisible(isVisible) {
+  if (els.openInfoRequestBtn) {
+    els.openInfoRequestBtn.style.display = isVisible ? "inline-flex" : "none";
+  }
+  if (els.officialSideLinks) {
+    els.officialSideLinks.classList.toggle("show-info-plus", Boolean(isVisible));
+  }
 }
 
 function showCalculatorView() {
   els.calculatorView.classList.remove("hidden-view");
   els.robuxView.classList.add("hidden-view");
   els.dropView.classList.add("hidden-view");
+  els.infoView.classList.add("hidden-view");
+  els.tierView.classList.add("hidden-view");
   els.feedbackView.classList.add("hidden-view");
   els.feedbackSidePanel.classList.remove("hidden-view");
+  setInfoPlusVisible(false);
   els.siteTitle.textContent = "King Legacy Trade Calculator";
   els.siteSubtitle.textContent = "Compare both sides of a trade using custom Fin values.";
   document.title = "King Legacy Trade Calculator";
@@ -660,9 +813,12 @@ function showCalculatorView() {
 }
 
 function showRobuxView() {
+  setInfoPlusVisible(false);
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.remove("hidden-view");
   els.dropView.classList.add("hidden-view");
+  els.infoView.classList.add("hidden-view");
+  els.tierView.classList.add("hidden-view");
   els.feedbackView.classList.add("hidden-view");
   els.feedbackSidePanel.classList.remove("hidden-view");
   els.siteTitle.textContent = "King Legacy Robux Per Fin Calculator";
@@ -674,9 +830,12 @@ function showRobuxView() {
 }
 
 function showDropView() {
+  setInfoPlusVisible(false);
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.add("hidden-view");
   els.dropView.classList.remove("hidden-view");
+  els.infoView.classList.add("hidden-view");
+  els.tierView.classList.add("hidden-view");
   els.feedbackView.classList.add("hidden-view");
   els.feedbackSidePanel.classList.remove("hidden-view");
   els.siteTitle.textContent = "King Legacy Drop Boost Helper";
@@ -687,10 +846,47 @@ function showDropView() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function showFeedbackView() {
+function showInfoView() {
+  setInfoPlusVisible(true);
   els.calculatorView.classList.add("hidden-view");
   els.robuxView.classList.add("hidden-view");
   els.dropView.classList.add("hidden-view");
+  els.infoView.classList.remove("hidden-view");
+  els.tierView.classList.add("hidden-view");
+  els.feedbackView.classList.add("hidden-view");
+  els.feedbackSidePanel.classList.remove("hidden-view");
+  els.siteTitle.textContent = "King Legacy Info Sheets";
+  els.siteSubtitle.textContent = "Community-submitted King Legacy notes, tech, bugs, glitches, and guides.";
+  document.title = "King Legacy Info Sheets";
+  setActiveNav("info");
+  renderInfoSheets();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showTierView() {
+  setInfoPlusVisible(false);
+  els.calculatorView.classList.add("hidden-view");
+  els.robuxView.classList.add("hidden-view");
+  els.dropView.classList.add("hidden-view");
+  els.infoView.classList.add("hidden-view");
+  els.tierView.classList.remove("hidden-view");
+  els.feedbackView.classList.add("hidden-view");
+  els.feedbackSidePanel.classList.remove("hidden-view");
+  els.siteTitle.textContent = "King Legacy Tier Lists";
+  els.siteSubtitle.textContent = "Browse PvP and PvE tier lists for fruits, swords, fighting styles, and passives.";
+  document.title = "King Legacy Tier Lists";
+  setActiveNav("tier");
+  updateTierListDisplay();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showFeedbackView() {
+  setInfoPlusVisible(false);
+  els.calculatorView.classList.add("hidden-view");
+  els.robuxView.classList.add("hidden-view");
+  els.dropView.classList.add("hidden-view");
+  els.infoView.classList.add("hidden-view");
+  els.tierView.classList.add("hidden-view");
   els.feedbackView.classList.remove("hidden-view");
   els.feedbackSidePanel.classList.add("hidden-view");
   els.siteTitle.textContent = "King Legacy Feedback";
@@ -700,6 +896,334 @@ function showFeedbackView() {
   updateFeedbackTypeDescription();
   if (!els.feedbackTime.value) els.feedbackTime.value = new Date().toLocaleString();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function parseInfoSheetsText(text) {
+  return text
+    .split(/\n\s*\n/g)
+    .map(chunk => chunk.trim())
+    .filter(chunk => chunk && !chunk.toUpperCase().startsWith("FORMAT:"))
+    .map(chunk => {
+      const entry = {};
+      chunk.split(/\r?\n/).forEach(line => {
+        const match = line.match(/^([1-6])\s*-\s*(.*)$/);
+        if (!match) return;
+        const value = match[2].trim().replace(/^"|"$/g, "");
+        if (match[1] === "1") entry.category = value;
+        if (match[1] === "2") entry.name = value;
+        if (match[1] === "3") entry.information = value;
+        if (match[1] === "4") entry.media = value;
+        if (match[1] === "5") entry.op = value;
+        if (match[1] === "6") entry.date = value;
+      });
+      return entry;
+    })
+    .filter(entry => entry.category && entry.name && entry.information);
+}
+
+async function loadInfoSheets() {
+  try {
+    const response = await fetch(`${INFO_SHEETS_FILE}?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error("Info sheet file not found.");
+    const text = await response.text();
+    infoSheets = parseInfoSheetsText(text);
+  } catch (error) {
+    infoSheets = [];
+  }
+  populateInfoCategoryOptions();
+  renderInfoSheets();
+}
+
+function getInfoMediaList(media) {
+  if (!media || media.toLowerCase() === "none") return [];
+  return String(media)
+    .split(/[,|]/g)
+    .map(item => item.trim())
+    .filter(Boolean);
+}
+
+function isInfoImage(media) {
+  return /\.(png|jpe?g|jfif|gif|webp|svg)$/i.test(media.toLowerCase());
+}
+
+function isInfoVideo(media) {
+  return /\.(mp4|webm|ogg|mov)$/i.test(media.toLowerCase());
+}
+
+function renderInfoMediaItem(media, options = {}) {
+  const safeMedia = escapeHtml(media);
+  const compact = Boolean(options.compact);
+  if (isInfoImage(media)) {
+    return `<div class="info-media"><img src="${safeMedia}" alt="Info sheet media" loading="lazy"></div>`;
+  }
+  if (isInfoVideo(media)) {
+    return `<div class="info-media"><video src="${safeMedia}" ${compact ? "" : "controls"}></video></div>`;
+  }
+  return `<div class="info-media"><a href="${safeMedia}" target="_blank" rel="noopener noreferrer">View media/source</a></div>`;
+}
+
+function renderInfoMedia(media, options = {}) {
+  const items = getInfoMediaList(media);
+  if (!items.length) return "";
+  const toRender = options.firstOnly ? items.slice(0, 1) : items;
+  return toRender.map(item => renderInfoMediaItem(item, options)).join("");
+}
+
+function truncateInfoText(text, maxLength = 30) {
+  const clean = String(text || "").replace(/\s+/g, " ").trim();
+  if (clean.length <= maxLength) return clean;
+  return `${clean.slice(0, maxLength).trim()}...`;
+}
+
+function openInfoDetail(entry) {
+  if (!els.infoDetailModal) return;
+  els.infoDetailTitle.textContent = entry.name || "Info Sheet";
+  els.infoDetailCategory.textContent = entry.category || "Uncategorized";
+  els.infoDetailInformation.textContent = entry.information || "No information listed.";
+  els.infoDetailMedia.innerHTML = renderInfoMedia(entry.media);
+  els.infoDetailMeta.innerHTML = `
+    <span>OP: ${escapeHtml(entry.op || "No original poster")}</span>
+    <span>Date: ${escapeHtml(entry.date || "No date listed")}</span>
+  `;
+  els.infoDetailModal.classList.remove("hidden-view");
+  els.infoDetailModal.setAttribute("aria-hidden", "false");
+}
+
+function closeInfoDetail() {
+  if (!els.infoDetailModal) return;
+  els.infoDetailModal.classList.add("hidden-view");
+  els.infoDetailModal.setAttribute("aria-hidden", "true");
+}
+
+function renderInfoSheets() {
+  if (!els.infoBoard || !els.infoEmpty) return;
+  els.infoBoard.innerHTML = "";
+  const hasInfo = infoSheets.length > 0;
+  els.infoBoard.classList.toggle("hidden-view", !hasInfo);
+  els.infoEmpty.classList.toggle("hidden-view", hasInfo);
+  if (!hasInfo) return;
+
+  const grouped = infoSheets.reduce((acc, item) => {
+    const category = item.category || "Uncategorized";
+    acc[category] ||= [];
+    acc[category].push(item);
+    return acc;
+  }, {});
+
+  Object.entries(grouped).forEach(([category, entries]) => {
+    const column = document.createElement("section");
+    column.className = "info-column";
+    column.innerHTML = `<h3>${escapeHtml(category)}</h3>`;
+
+    entries.forEach((entry, index) => {
+      const card = document.createElement("article");
+      card.className = `info-sheet-card ${index === 0 ? "is-expanded" : "is-minimized"}`;
+      card.tabIndex = 0;
+      card.innerHTML = `
+        <h4>${escapeHtml(entry.name)}</h4>
+        <div class="info-card-preview">
+          <p>${escapeHtml(truncateInfoText(entry.information, 30))}</p>
+          ${renderInfoMedia(entry.media, { firstOnly: true, compact: true })}
+          <div class="info-card-meta">
+            <span>OP: ${escapeHtml(entry.op || "No original poster")}</span>
+            <span>Date: ${escapeHtml(entry.date || "No date listed")}</span>
+          </div>
+        </div>
+      `;
+
+      const expandThisCard = () => {
+        column.querySelectorAll(".info-sheet-card").forEach(otherCard => {
+          otherCard.classList.remove("is-expanded");
+          otherCard.classList.add("is-minimized");
+        });
+        card.classList.remove("is-minimized");
+        card.classList.add("is-expanded");
+      };
+
+      card.addEventListener("mouseenter", expandThisCard);
+      card.addEventListener("focus", expandThisCard);
+      card.addEventListener("click", () => openInfoDetail(entry));
+      card.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openInfoDetail(entry);
+        }
+      });
+
+      column.appendChild(card);
+    });
+
+    els.infoBoard.appendChild(column);
+  });
+}
+
+function populateInfoCategoryOptions() {
+  if (!els.infoRequestCategory) return;
+  const current = els.infoRequestCategory.value;
+  const categories = [...new Set(infoSheets.map(item => item.category).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  els.infoRequestCategory.innerHTML = "";
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    els.infoRequestCategory.appendChild(option);
+  });
+  const newOption = document.createElement("option");
+  newOption.value = "new-category";
+  newOption.textContent = "New Category";
+  els.infoRequestCategory.appendChild(newOption);
+  els.infoRequestCategory.value = categories.includes(current) ? current : "new-category";
+  updateInfoNewCategoryVisibility();
+}
+
+function updateInfoNewCategoryVisibility() {
+  const isNew = els.infoRequestCategory.value === "new-category";
+  els.infoNewCategoryRow.classList.toggle("hidden-view", !isNew);
+}
+
+function openInfoRequestModal() {
+  els.infoRequestModal.classList.remove("hidden-view");
+  els.infoRequestModal.setAttribute("aria-hidden", "false");
+  if (!els.infoRequestTime.value) els.infoRequestTime.value = new Date().toLocaleString();
+  updateInfoRequestWordCount();
+  updateInfoMediaSource();
+}
+
+function closeInfoRequestModal() {
+  els.infoRequestModal.classList.add("hidden-view");
+  els.infoRequestModal.setAttribute("aria-hidden", "true");
+  setInfoRequestStatus("", "");
+}
+
+function countInfoRequestWords() {
+  return els.infoRequestInformation.value.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function updateInfoRequestWordCount() {
+  let words = els.infoRequestInformation.value.trim().split(/\s+/).filter(Boolean);
+  if (words.length > 500) {
+    els.infoRequestInformation.value = words.slice(0, 500).join(" ");
+    words = els.infoRequestInformation.value.trim().split(/\s+/).filter(Boolean);
+  }
+  els.infoRequestWordCount.textContent = `${words.length} / 500 words`;
+}
+
+function updateInfoMediaSource() {
+  const isDevice = els.infoMediaSource.value === "device";
+  els.infoDropZone.classList.toggle("hidden-view", !isDevice);
+  els.infoMediaUrl.classList.toggle("hidden-view", isDevice);
+  if (!isDevice) {
+    const sourceName = els.infoMediaSource.options[els.infoMediaSource.selectedIndex].textContent;
+    els.infoMediaUrl.placeholder = `Paste ${sourceName} here`;
+  }
+}
+
+function updateSelectedInfoFiles(files) {
+  infoRequestFiles = Array.from(files || []).slice(0, 3);
+  els.infoSelectedFiles.textContent = infoRequestFiles.length
+    ? infoRequestFiles.map(file => file.name).join(", ")
+    : "No files selected.";
+}
+
+function setInfoRequestStatus(message, type = "") {
+  els.infoRequestStatus.textContent = message;
+  els.infoRequestStatus.className = `feedback-status ${type}`.trim();
+}
+
+async function submitInfoRequest() {
+  const selectedCategory = els.infoRequestCategory.value;
+  const category = selectedCategory === "new-category"
+    ? els.infoRequestNewCategory.value.trim()
+    : selectedCategory;
+  const name = els.infoRequestName.value.trim() || "Anonymous / no credit requested";
+  const time = els.infoRequestTime.value.trim() || new Date().toLocaleString();
+  const information = els.infoRequestInformation.value.trim();
+  const mediaSource = els.infoMediaSource.value;
+  const mediaUrl = els.infoMediaUrl.value.trim();
+
+  if (!category) {
+    setInfoRequestStatus("Please enter a category.", "error");
+    return;
+  }
+
+  if (!information) {
+    setInfoRequestStatus("Please type the information before submitting.", "error");
+    return;
+  }
+
+  if (countInfoRequestWords() > 500) {
+    setInfoRequestStatus("Please keep the information at 500 words or less.", "error");
+    return;
+  }
+
+  const pingText = INFO_REQUEST_ROLE_IDS.map(roleId => `<@&${roleId}>`).join(" ");
+  const fields = [
+    { name: "Name/Username", value: name, inline: true },
+    { name: "Time and Date", value: time, inline: true },
+    { name: "Category", value: category, inline: true },
+    { name: "Information", value: information.slice(0, 3900) }
+  ];
+
+  if (mediaSource !== "device" && mediaUrl) {
+    fields.push({ name: "Media Link", value: mediaUrl.slice(0, 1000) });
+  }
+
+  const payload = {
+    username: "King Legacy Info Sheets",
+    content: pingText,
+    allowed_mentions: { roles: INFO_REQUEST_ROLE_IDS },
+    embeds: [{
+      title: "📚 Info Sheet Submission",
+      color: 0x36d4ff,
+      fields,
+      footer: { text: "Sent from King Legacy Toolkit Info Sheets" },
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  els.infoRequestSubmitBtn.disabled = true;
+  els.infoRequestSubmitBtn.textContent = "Sending...";
+  setInfoRequestStatus("Sending info request...", "");
+
+  try {
+    let response;
+    if (mediaSource === "device" && infoRequestFiles.length) {
+      const formData = new FormData();
+      formData.append("payload_json", JSON.stringify(payload));
+      infoRequestFiles.forEach((file, index) => formData.append(`files[${index}]`, file, file.name));
+      response = await fetch(INFO_REQUEST_WEBHOOK, { method: "POST", body: formData });
+    } else {
+      response = await fetch(INFO_REQUEST_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (!response.ok) throw new Error("Discord rejected the info request.");
+
+    els.infoRequestInformation.value = "";
+    els.infoRequestNewCategory.value = "";
+    els.infoMediaUrl.value = "";
+    els.infoMediaFiles.value = "";
+    updateSelectedInfoFiles([]);
+    updateInfoRequestWordCount();
+    closeInfoRequestModal();
+  } catch (error) {
+    setInfoRequestStatus("Info request failed to send. Check the webhook or uploaded file size.", "error");
+  } finally {
+    els.infoRequestSubmitBtn.disabled = false;
+    els.infoRequestSubmitBtn.textContent = "Submit!";
+  }
 }
 
 function updateFeedbackTypeDescription() {
@@ -848,8 +1372,37 @@ async function submitFeedback() {
 els.tradeNavBtn.addEventListener("click", showCalculatorView);
 els.robuxNavBtn.addEventListener("click", showRobuxView);
 els.dropNavBtn.addEventListener("click", showDropView);
+els.infoNavBtn.addEventListener("click", showInfoView);
+els.tierNavBtn.addEventListener("click", showTierView);
 els.feedbackNavBtn.addEventListener("click", showFeedbackView);
 els.sideFeedbackBtn.addEventListener("click", showFeedbackView);
+els.openInfoRequestBtn.addEventListener("click", openInfoRequestModal);
+els.closeInfoRequestBtn.addEventListener("click", closeInfoRequestModal);
+els.infoRequestCategory.addEventListener("change", updateInfoNewCategoryVisibility);
+els.infoRequestInformation.addEventListener("input", updateInfoRequestWordCount);
+els.infoMediaSource.addEventListener("change", updateInfoMediaSource);
+els.infoMediaFiles.addEventListener("change", event => updateSelectedInfoFiles(event.target.files));
+els.infoRequestSubmitBtn.addEventListener("click", submitInfoRequest);
+if (els.closeInfoDetailBtn) els.closeInfoDetailBtn.addEventListener("click", closeInfoDetail);
+if (els.infoDetailModal) {
+  els.infoDetailModal.addEventListener("click", event => {
+    if (event.target === els.infoDetailModal) closeInfoDetail();
+  });
+}
+
+els.infoDropZone.addEventListener("dragover", event => {
+  event.preventDefault();
+  els.infoDropZone.classList.add("drag-over");
+});
+els.infoDropZone.addEventListener("dragleave", () => els.infoDropZone.classList.remove("drag-over"));
+els.infoDropZone.addEventListener("drop", event => {
+  event.preventDefault();
+  els.infoDropZone.classList.remove("drag-over");
+  updateSelectedInfoFiles(event.dataTransfer.files);
+});
+els.infoRequestModal.addEventListener("click", event => {
+  if (event.target === els.infoRequestModal) closeInfoRequestModal();
+});
 
 els.regionalGoBtn.addEventListener("click", () => {
   const value = Number(els.conquerorPriceInput.value);
@@ -986,14 +1539,25 @@ els.dropResetBtn.addEventListener("click", () => {
   input.addEventListener("change", updateDropCalculator);
 });
 
+if (els.tierModeSelect) els.tierModeSelect.addEventListener("change", updateTierListDisplay);
+if (els.tierCategorySelect) els.tierCategorySelect.addEventListener("change", updateTierListDisplay);
+
 els.feedbackType.addEventListener("change", updateFeedbackTypeDescription);
 els.feedbackMessage.addEventListener("input", updateFeedbackWordCount);
 els.feedbackSubmitBtn.addEventListener("click", submitFeedback);
 updateFeedbackTypeDescription();
 updateFeedbackWordCount();
 
-setupFilters();
-renderItems();
-renderSelected();
-renderDropItems();
-showCalculatorView();
+async function initializeSite() {
+  await loadValueFiles();
+  setupFilters();
+  renderItems();
+  renderSelected();
+  renderDropItems();
+  await loadInfoSheets();
+  await loadTierListConfig();
+  updateTierListDisplay();
+  showCalculatorView();
+}
+
+initializeSite();

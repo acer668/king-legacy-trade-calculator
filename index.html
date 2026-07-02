@@ -16,6 +16,8 @@
       <button id="tradeNavBtn" type="button">Trade Calculator</button>
       <button id="robuxNavBtn" type="button">Robux Per Fin</button>
       <button id="dropNavBtn" type="button">Drop Boost Helper</button>
+      <button id="infoNavBtn" type="button">Info Sheets</button>
+      <button id="tierNavBtn" type="button">Tier Lists</button>
       <button id="feedbackNavBtn" type="button">Feedback</button>
       <button id="themeBtn" type="button">Toggle Theme</button>
     </div>
@@ -27,8 +29,11 @@
   </aside>
 
   <aside class="official-side-links" aria-label="Official King Legacy links">
-    <a class="official-link-btn" href="https://king-legacy-official.fandom.com/wiki/King_Legacy_Wiki">Official King Legacy Wiki</a>
-    <a class="official-link-btn" href="https://discord.gg/kinglegacy">Official King Legacy Discord</a>
+    <button id="openInfoRequestBtn" type="button" class="info-plus-btn" aria-label="Submit info request">+</button>
+    <div class="official-link-stack">
+      <a class="official-link-btn" href="https://king-legacy-official.fandom.com/wiki/King_Legacy_Wiki">Official King Legacy Wiki</a>
+      <a class="official-link-btn" href="https://discord.gg/kinglegacy">Official King Legacy Discord</a>
+    </div>
   </aside>
 
   <main id="calculatorView">
@@ -153,6 +158,57 @@
   </main>
 
 
+  <main id="infoView" class="hidden-view">
+    <section class="info-intro-card">
+      <h2>Info Sheets</h2>
+      <p>Browse community-submitted King Legacy information, organized like boards and cards.</p>
+    </section>
+    <section id="infoBoard" class="info-board"></section>
+    <section id="infoEmpty" class="info-empty-card">
+      <h2>No info yet!</h2>
+      <p>Press the plus icon to submit a request to add information if you believe it fits into a category.</p>
+    </section>
+  </main>
+
+
+  <main id="tierView" class="hidden-view">
+    <section class="tier-intro-card">
+      <h2>Tier Lists</h2>
+      <p>Choose a mode and category to display the matching King Legacy tier list.</p>
+      <div class="tier-controls">
+        <label>
+          <span>Tier List Type</span>
+          <select id="tierModeSelect">
+            <option value="PvP" selected>PvP tier lists</option>
+            <option value="PvE">PvE Tier lists</option>
+          </select>
+        </label>
+        <label>
+          <span>Category</span>
+          <select id="tierCategorySelect">
+            <option value="fruits" selected>fruits</option>
+            <option value="swords">swords</option>
+            <option value="fighting-styles">fighting styles</option>
+            <option value="passives">passives</option>
+            <option value="accessories">accessories</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="tier-display-card">
+      <div class="tier-display-head">
+        <h2 id="tierDisplayTitle">PvP Fruits</h2>
+        <p id="tierDisplayPath">assets/tier-lists/PvP/fruits/</p>
+      </div>
+      <div id="tierImageWrap" class="tier-image-wrap">
+        <p id="tierMissingText" class="tier-missing-text">Add a tier list image to this folder, then refresh the page.</p>
+        <img id="tierListImage" class="tier-list-image hidden-view" alt="King Legacy tier list" />
+      </div>
+    </section>
+  </main>
+
+
   <main id="feedbackView" class="hidden-view">
     <section class="feedback-form-card">
       <div class="feedback-form-head">
@@ -195,6 +251,87 @@
       </div>
     </section>
   </main>
+
+
+
+  <section id="infoDetailModal" class="modal-overlay hidden-view" aria-hidden="true">
+    <div class="info-request-modal info-detail-modal" role="dialog" aria-modal="true" aria-labelledby="infoDetailTitle">
+      <button id="closeInfoDetailBtn" type="button" class="modal-close-btn" aria-label="Close info sheet details">×</button>
+      <div class="info-request-head">
+        <small id="infoDetailCategory" class="info-detail-category">Category</small>
+        <h2 id="infoDetailTitle">Info Sheet</h2>
+      </div>
+      <div id="infoDetailMedia" class="info-detail-media"></div>
+      <p id="infoDetailInformation" class="info-detail-information"></p>
+      <div id="infoDetailMeta" class="info-card-meta info-detail-meta"></div>
+    </div>
+  </section>
+ 
+
+  <section id="infoRequestModal" class="modal-overlay hidden-view" aria-hidden="true">
+    <div class="info-request-modal" role="dialog" aria-modal="true" aria-labelledby="infoRequestTitle">
+      <button id="closeInfoRequestBtn" type="button" class="modal-close-btn" aria-label="Close info request">×</button>
+      <div class="info-request-head">
+        <h2 id="infoRequestTitle">Submit Info Sheet Request</h2>
+        <p>Please submit any information that is not common knowledge and/or cannot be found on the official king legacy wiki. examples include, but are not limited to, bugs, glitches, pvp/pve viability, techs, and notable persons(scammers, admins, high bounty players, ect.). all submitted information will be checked before release.</p>
+      </div>
+
+      <div class="info-request-grid">
+        <label>
+          <span>Name/Username (optional)</span>
+          <input id="infoRequestName" type="text" maxlength="80" placeholder="Optional name or Discord username" />
+        </label>
+
+        <label>
+          <span>Time and Date (optional)</span>
+          <input id="infoRequestTime" type="text" placeholder="Optional time/date" />
+        </label>
+
+        <label class="info-request-wide">
+          <span>Category</span>
+          <select id="infoRequestCategory">
+            <option value="new-category">New Category</option>
+          </select>
+        </label>
+
+        <label id="infoNewCategoryRow" class="info-request-wide">
+          <span>New Category</span>
+          <input id="infoRequestNewCategory" type="text" maxlength="80" placeholder="Example: Weapons, PvP Techs, Bugs" />
+        </label>
+
+        <label class="info-request-wide">
+          <span>Information</span>
+          <textarea id="infoRequestInformation" maxlength="4000" placeholder="Type the information here. 500 words max."></textarea>
+          <small id="infoRequestWordCount" class="feedback-word-count">0 / 500 words</small>
+        </label>
+
+        <div class="info-request-wide media-upload-card">
+          <span>Files / Images / Media</span>
+          <div class="media-source-row">
+            <select id="infoMediaSource">
+              <option value="device">Upload from device</option>
+              <option value="drive">Google Drive link</option>
+              <option value="url">URL</option>
+              <option value="dropbox">Dropbox link</option>
+            </select>
+            <input id="infoMediaUrl" class="hidden-view" type="url" placeholder="Paste your link here" />
+          </div>
+          <label id="infoDropZone" class="info-drop-zone">
+            <input id="infoMediaFiles" type="file" multiple accept="image/*,video/*,audio/*,.pdf,.txt,.doc,.docx" />
+            <strong>Drag and drop files here</strong>
+            <small>or click to upload from your device</small>
+          </label>
+          <small id="infoSelectedFiles" class="info-selected-files">No files selected.</small>
+        </div>
+      </div>
+
+      <div class="info-request-submit-row">
+        <p id="infoRequestStatus" class="feedback-status"></p>
+        <button id="infoRequestSubmitBtn" type="button">Submit!</button>
+      </div>
+      <p class="info-request-disclaimer">*any information submitted without a name/username will have no credit given to the original poster. all info submitted as such will be listed as either no original poster, the original poster being the website owner, or not posted at all. all information will be peer reviewed before posting.</p>
+    </div>
+  </section>
 
   <template id="itemTemplate">
     <article class="item-card">
